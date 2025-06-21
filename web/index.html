@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <link rel="stylesheet" href="assets/css/style.css" />
+    <link rel="stylesheet" href="assets/css/header/header.css">
+    <link rel="stylesheet" href="assets/css/header/modal.css">
+
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet" />
+
+    <title>Outdoor Reccommend Site</title>
+</head>
+<body>
+    <header class="main-header">
+        <div class="nav-left">
+          <nav>
+            <a href="index.html">Home</a>
+          </nav>
+        </div>
+
+        <div class="middle">
+          <div class="event-mode">
+            <button class="event">Event</button>
+          </div>
+  
+          <div class="articles-mode">
+            <button class="articles">Articles</button>
+          </div>
+  
+          <div class="filter">
+            <button id="filter-open" class="tune-icon material-symbols-outlined">tune</button>
+            <span>filtre</span>
+          </div>
+        </div>
+
+      
+        <div class="nav-right">
+          <button class="create-event">Create Event</button>
+          <button class="create-article">Write Article</button>
+
+          <button id="menu-open" aria-label="Open menu" class="menu-icon material-symbols-outlined">menu</button>
+      
+          <div class="desktop-auth-buttons">
+            <a href="pages/about.html" class="about">About</a>
+            <a href="#" class="mypage">Mypage</a>
+            <button id="login-button" class="login-button">LogIn</button>
+            <button id="signin-button" class="signin-button">SignIn</button>
+          </div>
+        </div>
+
+    </header>
+
+    <!-- Mobile right slide bar  -->
+    <div id="right-slide" class="right-slide hidden">
+        <button id="slidebar-close" class="close-icon material-symbols-outlined">close</button>
+        <a href="pages/about.html" class="about">About</a>
+        <a href="#" class="mypage">Mypage</a>
+        <button id="login-button-slide" class="login-button">LogIn</button>
+        <button id="signin-button-slide" class="signin-button">SignIn</button>
+    </div>
+    
+    <!-- common modal component  -->
+    <div id="modal-overlay" class="modal-overlay hidden">
+        <div class="modal-content">
+            <div class="login-modal" id="login-modal">
+                <h2>Login</h2>
+                <button id="close-login" class="close-icon material-symbols-outlined">close</button>
+                <form action="post">
+                    <input type="text" id="username-bar" name="username" placeholder="Username">
+                    <input type="text" id="password-bar" name="password" placeholder="Password">
+                    <button class="auth-button" type="submit">Login</button>
+                </form>
+                <p>Do noy have account ?<a href="#" class="change-modal">Signin</a></p>
+            </div>
+            
+            <div class="signin-modal" id="signin-modal">
+                <h2>Signin</h2>
+                <button id="close-signin" class="close-icon material-symbols-outlined">close</button>
+                <form action="post">
+                    <input type="text" id="username-bar" name="username" placeholder="Username">
+                    <input type="email" id="email-bar" name="email" placeholder="Email">
+                    <input type="password" id="password-bar" name="password" placeholder="Password">
+                    <button class="auth-button" type="submit">SignIn</button>
+                </form>
+                <p>Already have an account ?<a href="#" class="change-modal">Login</a></p>
+            </div>
+        </div>
+    </div>
+
+    <footer>
+    </footer>
+    <script src="assets/js/header.js"></script>
+</body>
+</html>

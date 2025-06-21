@@ -1,0 +1,152 @@
+:root {
+    --primary-color: #718950;
+    --secondary-color: #3f6c29;
+    --text-main-color: #2b2a2a;
+}
+
+/* Mobile size */
+header {
+    border-bottom: 1px solid rgb(177, 175, 175);
+    position: sticky;
+    top: 0;
+}
+
+.main-header {
+    display: flex;
+    padding: 0.6rem;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.filter {
+    display: none;
+}
+
+
+/* header right*/
+.nav-right .desktop-auth-buttons {
+    display: none;
+}
+
+.login-button, .signin-button {
+    background: none;
+    border: none;
+    font-size: 1.1rem;
+    margin: 10px;
+    cursor: pointer;
+    color: var(--text-main-color);
+}
+
+.about, .mypage {
+    align-self: center;
+    text-decoration: none;
+    margin: 10px;
+    font-size: 1.1rem;
+    color: var(--text-main-color);
+}
+
+
+
+
+/*Desktop size*/
+@media screen and (min-width: 800px){
+    header {
+        border-bottom: 1px solid rgb(177, 175, 175);
+        position: sticky;
+        top: 0;
+    }
+
+    .main-header {
+        display: grid;
+        grid-template-columns: 90px 1fr 1fr;
+        align-items: center;
+    }
+    
+    
+    .nav-left {
+        justify-self: center;
+    }
+    
+    .nav-right {
+        display: flex;
+        align-items: center;
+        justify-self: end;
+        gap: 1rem;                   
+    }
+
+    .create-event, .create-article {
+        align-self: center;
+        background: none;
+        border: none;
+        cursor: pointer;
+        padding: 10px;
+    }
+
+    .create-event:hover, .create-article:hover {
+        background-color: rgb(231, 229, 229);
+        border-radius: 50px;
+    }
+
+    .middle {
+        display: flex;
+        align-items: center;
+        justify-content: start;
+        gap: 50px;
+        padding-left: 30px;
+    }
+
+    .event, .articles {
+        background: none;
+        border: none;
+        font-size: 1.1rem;
+        margin: 10px;
+        cursor: pointer;
+        color: var(--text-main-color);
+    }
+
+    .filter {
+        display: flex;
+        justify-self: center;
+        align-self: center;
+        gap: 8px;
+        border: 1px solid gray;
+        border-radius: 50px;
+        cursor: pointer;
+        padding: 6px;
+    }
+
+    .filter span {
+        align-self: center;
+    }
+
+    
+
+    .tune-icon {
+        background: none;
+        border: none;
+        cursor: pointer;
+    }
+    
+    .nav-right .desktop-auth-buttons {
+        display: none;
+    }
+
+    .nav-right #menu-open {
+        display: inline-block;
+    }
+
+    /* Add animation */
+    .login-button, 
+    .signin-button,
+    .about,
+    .mypage {
+        position: relative;
+        display: inline-block;
+        text-decoration: none;
+        color: var(--text-main-color);
+        cursor: pointer;
+    }
+
+
+   
+}
