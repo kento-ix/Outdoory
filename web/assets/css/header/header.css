@@ -24,27 +24,42 @@ header {
 
 
 /* header right*/
-.nav-right .desktop-auth-buttons {
-    display: none;
-}
 
-.login-button, .signin-button {
+.login-button, 
+.signin-button {
     background: none;
     border: none;
     font-size: 1.1rem;
-    margin: 10px;
+    padding: 10px;
+    border-radius: 10px;
     cursor: pointer;
     color: var(--text-main-color);
 }
 
-.about, .mypage {
-    align-self: center;
-    text-decoration: none;
-    margin: 10px;
-    font-size: 1.1rem;
-    color: var(--text-main-color);
+.login-button:hover, 
+.signin-button:hover {
+    background-color: rgb(239, 236, 236);
 }
 
+.about,
+.mypage {
+    display: block;
+    text-decoration: none;
+    font-size: 1.1rem;
+    color: var(--text-main-color);
+    border-radius: 10px;
+    transition: background-color 0.2s ease;
+    padding: 10px 12px;
+    width: auto;
+    text-align: center;
+    align-self: center;
+    min-width: 155px;
+}
+
+.about:hover,
+.mypage:hover {
+    background-color: rgb(239, 236, 236);
+}
 
 
 
@@ -119,16 +134,10 @@ header {
         align-self: center;
     }
 
-    
-
     .tune-icon {
         background: none;
         border: none;
         cursor: pointer;
-    }
-    
-    .nav-right .desktop-auth-buttons {
-        display: none;
     }
 
     .nav-right #menu-open {
@@ -136,16 +145,6 @@ header {
     }
 
     /* Add animation */
-    .login-button, 
-    .signin-button,
-    .about,
-    .mypage {
-        position: relative;
-        display: inline-block;
-        text-decoration: none;
-        color: var(--text-main-color);
-        cursor: pointer;
-    }
 
 
    

@@ -1,8 +1,8 @@
 document.addEventListener("DOMContentLoaded", () => {
     const menuOpenBtn = document.getElementById("menu-open");
     
-    const loginBtn = document.querySelector("#login-button");
-    const signinBtn = document.querySelector("#signin-button");
+    // const loginBtn = document.querySelector("#login-button");
+    // const signinBtn = document.querySelector("#signin-button");
     const loginBtnSlide = document.querySelector("#login-button-slide")
     const signinBtnSlide = document.querySelector("#signin-button-slide")
 
@@ -19,9 +19,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     const changeModalLinks = document.querySelectorAll(".change-modal");
 
-    // Open: auth modal
-    loginBtn.addEventListener("click", () => openModal("login"));
-    signinBtn.addEventListener("click", () => openModal("signin"));
+    
 
     // Effect Open: modal with animation activate
     function openModal(mode = "login") {

@@ -1,5 +1,5 @@
 :root {
-    --background-color: #99bea5;
+    --background-color: #bbd8c4;
 }
 
 * {
@@ -92,7 +92,7 @@
         text-decoration: none;
         justify-self: center;
         align-self: center;
-        background-color: #edd66c;
+        background-color: #e9dca2;
         padding: 15px;
         border-radius: 50px;
         width: 200px;
