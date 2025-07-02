@@ -1,0 +1,172 @@
+:root {
+    --primary-color: #718950;
+    --secondary-color: #3f6c29;
+    --text-main-color: #2b2a2a;
+}
+
+/* Mobile size */
+header {
+    border-bottom: 1px solid rgb(177, 175, 175);
+    position: sticky;
+    top: 0;
+}
+
+.main-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0.3rem;
+}
+
+.nav-left a {
+    display: inline-block;
+    line-height: 0;
+}
+
+.nav-left img {
+    width: 50px;
+    height: auto;
+    display: block;
+}
+
+
+/* / hidden component -mobile size- */
+.filter, .event, .experience {
+    display: none;
+}
+
+
+.login-button, 
+.signin-button {
+    background: none;
+    border: none;
+    font-size: 1.1rem;
+    padding: 10px;
+    border-radius: 10px;
+    cursor: pointer;
+    color: var(--text-main-color);
+}
+
+.login-button:hover, 
+.signin-button:hover {
+    background-color: rgb(239, 236, 236);
+}
+
+.about,
+.mypage,
+.document {
+    display: block;
+    text-decoration: none;
+    font-size: 1.1rem;
+    color: var(--text-main-color);
+    border-radius: 10px;
+    transition: background-color 0.2s ease;
+    padding: 10px 12px;
+    width: auto;
+    text-align: center;
+    align-self: center;
+    min-width: 155px;
+}
+
+.about:hover,
+.mypage:hover,
+.document:hover {
+    background-color: rgb(239, 236, 236);
+}
+
+
+
+/*Desktop size*/
+@media screen and (min-width: 800px){
+    header {
+        border-bottom: 1px solid rgb(177, 175, 175);
+        position: sticky;
+        top: 0;
+    }
+
+    .main-header {
+        display: grid;
+        grid-template-columns: 90px 1fr 1fr;
+        align-items: center;
+    }
+    
+    
+    .nav-left {
+        justify-self: center;
+    }
+
+    .nav-left a {
+        display: inline-block;
+        line-height: 0;
+    }
+    
+    .nav-left img {
+        width: 50px;
+        height: auto;
+        display: block;
+    }
+    
+    
+    .nav-right {
+        display: flex;
+        align-items: center;
+        justify-self: end;
+        gap: 1rem;                   
+    }
+
+    /* .create-event, .create-article {
+        align-self: center;
+        background: none;
+        border: none;
+        cursor: pointer;
+        padding: 10px;
+    } */
+
+    /* .create-event:hover, .create-article:hover {
+        background-color: rgb(231, 229, 229);
+        border-radius: 50px;
+    } */
+
+    .middle {
+        display: flex;
+        align-items: center;
+        justify-content: start;
+        gap: 50px;
+        padding-left: 30px;
+    }
+
+    /* Appear componet -Desktop size- */
+    .event, .experience {
+        display: flex;
+        background: none;
+        border: none;
+        font-size: 1.1rem;
+        cursor: pointer;
+        color: var(--text-main-color);
+    }
+
+    .filter {
+        display: flex;
+        justify-self: center;
+        align-self: center;
+        gap: 8px;
+        border: 1px solid gray;
+        border-radius: 50px;
+        cursor: pointer;
+        padding: 6px;
+    }
+
+    .filter span {
+        align-self: center;
+    }
+
+    .tune-icon {
+        background: none;
+        border: none;
+        cursor: pointer;
+    }
+
+    .nav-right #menu-open {
+        display: inline-block;
+    }
+}

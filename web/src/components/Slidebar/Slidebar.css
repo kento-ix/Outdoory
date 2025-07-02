@@ -1,0 +1,65 @@
+/* right slide*/
+.right-slide {
+    display: grid;
+
+    position: fixed;
+    top: 0;
+    right: 0;
+    height: 100vh;
+    width: 180px;
+    background-color: white;
+    box-shadow: -2px 0 5px rgba(0, 0, 0, 0.2);
+    z-index: 10;
+    padding: 2rem 1rem;
+    gap: 1rem;
+    justify-content: space-between;
+
+    transform: translateX(100%);
+    transition: transform 0.3s ease-in-out;
+}
+
+.right-slide.active {
+    transform: translateX(0);
+}
+
+.slide-top {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.slide-bottom {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    align-self: flex-end;
+}
+  
+
+
+/* inner components */
+.slide-event,
+.slide-experience {
+    background: none;
+    border: none;
+    font-size: 1.1rem;
+    padding: 10px;
+    border-radius: 10px;
+    cursor: pointer;
+    color: var(--text-main-color);
+}
+
+.slide-event:hover,
+.slide-experience:hover {
+    background-color: rgb(239, 236, 236);
+}
+
+/* slide bar components */
+
+@media screen and (min-width: 800px){
+    /*Hide menu icon*/
+    .slide-event, .slide-experience {
+        display: none;
+    }
+    
+}
