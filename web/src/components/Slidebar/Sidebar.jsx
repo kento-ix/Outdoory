@@ -1,40 +1,41 @@
 import { Link } from "react-router-dom";
 import "./Slidebar.css";
 import { useState, useEffect, useRef } from "react";
+import { useAtom } from "jotai";
+import { sidebarOpenAtom, modalModeAtom } from "../../atoms/uiAtoms";
 
-const Sidebar = ({ onClose, onLogin, onSignin }) => {
+const Sidebar = () => {
+  const [, setSidebarOpen] = useAtom(sidebarOpenAtom);
+  const [, setModalMode] = useAtom(modalModeAtom);
+
   const [isActive, setIsActive] = useState(false);
   const sidebarRef = useRef(null);
 
-  // open effect click menu icon
+  // open sidebar
   useEffect(() => {
     const timer = setTimeout(() => {
       setIsActive(true);
     }, 20);
-    
     return () => clearTimeout(timer);
   }, []);
-  
-  // close effect click close icon
+
+  // close sidebar
   useEffect(() => {
     if (!isActive) {
       const timer = setTimeout(() => {
-        onClose();
+        setSidebarOpen(false);
       }, 300);
       return () => clearTimeout(timer);
     }
-  }, [isActive, onClose]);
+  }, [isActive, setSidebarOpen]);
 
-  // close effect click outside slidebar
+  // close click outside
   useEffect(() => {
     const handleClickOutside = (e) => {
-      if (
-        sidebarRef.current && !sidebarRef.current.contains(e.target)
-      ) {
+      if (sidebarRef.current && !sidebarRef.current.contains(e.target)) {
         setIsActive(false);
       }
     };
-
     document.addEventListener("click", handleClickOutside);
     return () => document.removeEventListener("click", handleClickOutside);
   }, []);
@@ -47,11 +48,18 @@ const Sidebar = ({ onClose, onLogin, onSignin }) => {
     handleClose();
   };
 
+  const handleLogin = () => {
+    setSidebarOpen(false);
+    setModalMode("login");
+  };
+
+  const handleSignin = () => {
+    setSidebarOpen(false);
+    setModalMode("signin");
+  };
+
   return (
-    <div
-      className={`right-slide ${isActive ? "active" : ""}`}
-      ref={sidebarRef}
-    >
+    <div className={`right-slide ${isActive ? "active" : ""}`} ref={sidebarRef}>
       <div className="slide-top">
         <button className="close-icon material-symbols-outlined" onClick={handleClose}>close</button>
         <Link to="/about" className="about" onClick={handleLinkClick}>About</Link>
@@ -61,8 +69,8 @@ const Sidebar = ({ onClose, onLogin, onSignin }) => {
         <button className="slide-experience">Experience</button>
       </div>
       <div className="slide-bottom">
-        <button className="login-button" onClick={onLogin}>LogIn</button>
-        <button className="signin-button" onClick={onSignin}>SignIn</button>
+        <button className="login-button" onClick={handleLogin}>LogIn</button>
+        <button className="signin-button" onClick={handleSignin}>SignIn</button>
       </div>
     </div>
   );

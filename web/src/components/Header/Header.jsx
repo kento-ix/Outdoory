@@ -1,20 +1,16 @@
-import React, { useState } from "react";
 import "./Header.css";
 import "../Modal/Modal.css";
 import "../Slidebar/Slidebar.css";
 import Modal from "../Modal/Modal";
 import Sidebar from "../Slidebar/Sidebar.jsx";
 import { Link } from "react-router-dom";
-
 import logo from "../../assets/logo2.png";
+import { useAtom } from "jotai";
+import { modalModeAtom, sidebarOpenAtom } from "../../atoms/uiAtoms";
 
 const Header = () => {
-  const [modalMode, setModalMode] = useState(null);
-  const [sidebarOpen, setSidebarOpen] = useState(false);
-
-  const handleChangeModalMode = (newMode) => {
-    setModalMode(newMode);
-  };
+  const [modalMode] = useAtom(modalModeAtom);
+  const [sidebarOpen, setSidebarOpen] = useAtom(sidebarOpenAtom);
 
   return (
     <header className="main-header">
@@ -46,29 +42,10 @@ const Header = () => {
         </button>
       </div>
 
-      {modalMode && (
-        <Modal
-          mode={modalMode}
-          onClose={() => setModalMode(null)}
-          onChangeMode={handleChangeModalMode}
-        />
-      )}
-      {sidebarOpen && (
-        <Sidebar
-          onClose={() => setSidebarOpen(false)}
-          onLogin={() => {
-            setSidebarOpen(false);
-            setModalMode("login");
-          }}
-          onSignin={() => {
-            setSidebarOpen(false);
-            setModalMode("signin");
-          }}
-        />
-      )}
+      {modalMode && <Modal />}
+      {sidebarOpen && <Sidebar />}
     </header>
   );
 };
-
 
 export default Header;

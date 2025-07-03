@@ -1,31 +1,25 @@
-import React from "react";
-import "./Modal.css";
 import { useState, useEffect, useRef } from "react";
+import "./Modal.css";
+import { useAtom } from "jotai";
+import { modalModeAtom } from "../../atoms/uiAtoms";
 
-function Modal({ mode, onClose, onChangeMode }) {
+function Modal() {
+  const [modalMode, setModalMode] = useAtom(modalModeAtom);
   const [isActive, setIsActive] = useState(false);
   const modalRef = useRef(null);
 
-  // open effect click menu icon
   useEffect(() => {
-    const timer = setTimeout(() => {
-      setIsActive(true);
-    }, 20);
-
+    const timer = setTimeout(() => setIsActive(true), 20);
     return () => clearTimeout(timer);
   }, []);
 
-  // close effect click close icon
   useEffect(() => {
-    if(!isActive) {
-      const timer = setTimeout(() => {
-        onClose();
-      }, 300);
+    if (!isActive) {
+      const timer = setTimeout(() => setModalMode(null), 300);
       return () => clearTimeout(timer);
     }
-  }, [isActive, onClose]);
+  }, [isActive, setModalMode]);
 
-  // close effect click outside modal
   useEffect(() => {
     const handleClickOutside = (e) => {
       if (modalRef.current && !modalRef.current.contains(e.target)) {
@@ -43,21 +37,25 @@ function Modal({ mode, onClose, onChangeMode }) {
   return (
     <div className={`modal-overlay ${isActive ? "active" : ""}`}>
       <div className="modal-content" ref={modalRef}>
-        {mode === "login" ? (
+        {modalMode === "login" ? (
           <div className="login-modal">
             <h2>Login</h2>
             <button className="close-icon material-symbols-outlined" onClick={handleClose}>close</button>
             <form>
-              <input type="text" placeholder="Username" />
-              <input type="text" placeholder="Password" />
+              <input type="text" placeholder="Username" required minLength="3" autoComplete="off"/>
+              <input type="password" placeholder="Password" required autoComplete="off"/>
               <button className="auth-button" type="submit">Login</button>
             </form>
             <p>
-              Do not have account?{" "} 
-              <button type="button" className="change-modal" onClick={(e) => {
-                e.preventDefault();
-                onChangeMode("signin");
-                }}>
+              Do not have account?{" "}
+              <button
+                type="button"
+                className="change-modal"
+                onClick={(e) => {
+                  e.preventDefault();
+                  setModalMode("signin");
+                }}
+              >
                 Signin
               </button>
             </p>
@@ -67,17 +65,21 @@ function Modal({ mode, onClose, onChangeMode }) {
             <h2>Signin</h2>
             <button className="close-icon material-symbols-outlined" onClick={handleClose}>close</button>
             <form>
-              <input type="text" placeholder="Username" />
-              <input type="email" placeholder="Email" />
-              <input type="password" placeholder="Password" />
+              <input type="text" placeholder="Username" required minLength="3" autoComplete="off"/>
+              <input type="email" required placeholder="example@example.com" autoComplete="off"/>
+              <input type="password" placeholder="Password" autoComplete="off"/>
               <button className="auth-button" type="submit">SignIn</button>
             </form>
             <p>
               Already have an account?{" "}
-              <button type="button" className="change-modal" onClick={(e) => {
+              <button
+                type="button"
+                className="change-modal"
+                onClick={(e) => {
                   e.preventDefault();
-                onChangeMode("login");
-              }}>
+                  setModalMode("login");
+                }}
+              >
                 Login
               </button>
             </p>

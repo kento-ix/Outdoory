@@ -1,5 +1,6 @@
 # macOS
 .DS_Store
+Thumbs.db
 
 # node modules (React in web/)
 web/node_modules/
@@ -11,3 +12,20 @@ yarn-error.log*
 
 # build output (React)
 web/build/
+
+# API
+api/vendor/
+api/composer.lock
+api/config/database.php
+
+# env fil
+.env
+*.env
+
+# log file
+api/logs/
+*.log
+
+# temp file
+api/temp/
+api/cache/

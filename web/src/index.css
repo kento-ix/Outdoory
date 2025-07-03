@@ -4,12 +4,14 @@
     --background-color: #fdf3e4;
     --component-color: #014301;
     --secondary-color: #718950;
+    --text-color: #3d3d3d;
     
     --main-font: 'Open Sans', sans-serif;
-    --text-font: 'Playfair Display', sans-serif;
+    --text-font: 'Roboto', sans-serif;
 }
 
 body {
     margin: 0;
     font-family: var(--text-font);
+    background-color: var(--background-color);
 }
