@@ -126,8 +126,9 @@
     grid-column: 1 / 4;
     grid-row: 3;
     text-align: center;
-    font-size: 1rem;
+    font-size: 0.9rem;
     align-self: center;
+    margin-top: 1rem;
 }
 
 .auth-button {
@@ -198,6 +199,26 @@
 
 .hidden {
     display: none;
+}
+
+.register-success,
+.login-success {
+    grid-column: 2 / 3;
+    grid-row: 1/3;
+    align-self: center;
+    justify-self: center;
+}
+
+.success-message {
+    font-size: 25px;
+    margin-bottom: 10px;
+}
+
+.error-message {
+    margin-top: 0;
+    margin-bottom: 1rem;
+    color: red;
+    font-size: 0.9rem;
 }
 
 /* Desktop size */

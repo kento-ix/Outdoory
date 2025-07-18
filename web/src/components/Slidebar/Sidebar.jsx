@@ -3,13 +3,21 @@ import "./Slidebar.css";
 import { useState, useEffect, useRef } from "react";
 import { useAtom } from "jotai";
 import { sidebarOpenAtom, modalModeAtom } from "../../atoms/uiAtoms";
+import { authUserAtom, authTokenAtom, authErrorAtom } from "../../atoms/authAtoms";
+import { logoutUser } from "../../arc/auth/authServices";
+
 
 const Sidebar = () => {
+  const [authUser, setAuthUser] = useAtom(authUserAtom);
   const [, setSidebarOpen] = useAtom(sidebarOpenAtom);
   const [, setModalMode] = useAtom(modalModeAtom);
 
   const [isActive, setIsActive] = useState(false);
   const sidebarRef = useRef(null);
+
+  const [, setAuthToken] = useAtom(authTokenAtom);
+  const [, setAuthError] = useAtom(authErrorAtom);
+
 
   // open sidebar
   useEffect(() => {
@@ -58,6 +66,18 @@ const Sidebar = () => {
     setModalMode("signin");
   };
 
+  const handleLogout = async () => {
+    const { ok, data } = await logoutUser();
+    if (ok) {
+      setAuthUser(null);
+      setAuthToken(null);
+      setSidebarOpen(false);
+    } else {
+      setAuthError(data.error || "Logout failed");
+    }
+  };
+
+
   return (
     <div className={`right-slide ${isActive ? "active" : ""}`} ref={sidebarRef}>
       <div className="slide-top">
@@ -69,8 +89,14 @@ const Sidebar = () => {
         <button className="slide-experience">Experience</button>
       </div>
       <div className="slide-bottom">
-        <button className="login-button" onClick={handleLogin}>LogIn</button>
-        <button className="signin-button" onClick={handleSignin}>SignIn</button>
+        {authUser ? (
+          <button className="logout-button" onClick={handleLogout}>Logout</button>
+        ) : (
+          <>
+            <button className="login-button" onClick={handleLogin}>LogIn</button>
+            <button className="signin-button" onClick={handleSignin}>SignIn</button>
+          </>
+        )}
       </div>
     </div>
   );

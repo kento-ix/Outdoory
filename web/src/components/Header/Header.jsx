@@ -8,6 +8,7 @@ import logo from "../../assets/logo2.png";
 import { useAtom } from "jotai";
 import { modalModeAtom, sidebarOpenAtom } from "../../atoms/uiAtoms";
 
+
 const Header = () => {
   const [modalMode] = useAtom(modalModeAtom);
   const [sidebarOpen, setSidebarOpen] = useAtom(sidebarOpenAtom);
