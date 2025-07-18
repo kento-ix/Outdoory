@@ -16,7 +16,7 @@ web/build/
 # API
 api/vendor/
 api/composer.lock
-api/config/database.php
+api/db/
 
 # env fil
 .env
