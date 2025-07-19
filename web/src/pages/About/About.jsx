@@ -1,6 +1,8 @@
-import React from 'react';
 import { Link } from 'react-router-dom';
 import './About.css';
+import findImage from "../../assets/about/find-friend.jpg";
+import joinImage from "../../assets/about/join-event.jpg";
+import shareImage from "../../assets/about/share-experience.jpg";
 
 const About = () => {
   return (
@@ -21,6 +23,30 @@ const About = () => {
 
       <div className="second-content">
         <p className="introduction">Learn More About this Website</p>
+
+        <div className="card find-card">
+          <img src={findImage} alt="Find Friends" />
+          <h3>🎯 Find Outdoor Companions</h3>
+          <p>
+            Connect with people who share your interests and enjoy outdoor adventures together.
+          </p>
+        </div>
+
+        <div className="card join-card">
+          <img src={joinImage} alt="Join Events" />
+          <h3>📍 Join or Create Events</h3>
+          <p>
+            Host your own activity or join existing events to explore nature and meet like-minded people.
+          </p>
+        </div>
+
+        <div className="card share-card">
+          <img src={shareImage} alt="Share Experience" />
+          <h3>🌄 Share Your Experience</h3>
+          <p>
+            Post your adventures and photos to inspire others and keep memories alive.
+          </p>
+        </div>
       </div>
     </main>
   );
