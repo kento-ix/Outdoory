@@ -1,7 +1,11 @@
 <?php
 require_once __DIR__ . '/../vendor/autoload.php';
 require_once __DIR__ . '/../db/db.php';
+require_once __DIR__ . '/../models/User.php';
 
+// library to decode/encode JWT
+use Firebase\JWT\JWT;
+use Firebase\JWT\Key;
 
 // CORS setting
 header("Access-Control-Allow-Origin: http://localhost:3000");
@@ -15,9 +19,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
     exit();
 }
 
-// library to decode/encode JWT
-use Firebase\JWT\JWT;
-use Firebase\JWT\Key;
 
 // To responseas json format
 header('Content-Type: application/json');
@@ -25,6 +26,8 @@ header('Content-Type: application/json');
 $method_type = $_SERVER['REQUEST_METHOD'];
 $data = json_decode(file_get_contents("php://input"), true) ?? [];
 $action = $_GET['action'] ?? null;
+
+$userModel = new User($pdo);
 
 // register, login, logout and delete 
 if ($method_type === 'POST') {
@@ -46,12 +49,7 @@ if ($method_type === 'POST') {
 
 
         // check username or email exist
-        $sql = "SELECT COUNT(*) FROM users WHERE username = :username OR email = :email";
-        $stmt = $pdo->prepare($sql);
-        $stmt->bindValue(':username',$username);
-        $stmt->bindValue(':email', $email);
-        $stmt->execute();
-        if($stmt->fetchColumn() > 0) {
+        if ($userModel->exists($username, $email)) {
             http_response_code(409);
             echo json_encode(['error' => 'Username or email already exists']);
             exit;
@@ -59,20 +57,14 @@ if ($method_type === 'POST') {
 
         // hashpassword
         $hashedPassword = password_hash($password, PASSWORD_DEFAULT);
+        
 
         // add users info to database
-        $sql = "INSERT INTO users (username, email, password) VALUES(:username, :email, :password)";
-        $stmt = $pdo->prepare($sql);
-        $stmt->bindValue(':password', $hashedPassword);
-        $stmt->bindValue(':username',$username);
-        $stmt->bindValue(':email', $email);
-        $stmt->execute();
+        $userModel->create($username, $email, $hashedPassword);
+
         http_response_code(201);
-        echo json_encode([
-            'message' => 'User registered successfully'
-
-        ]);
-
+        echo json_encode(['message' => 'User registered successfully']);
+        exit;
 
     } elseif ($action === 'login') {
         // login
@@ -87,11 +79,9 @@ if ($method_type === 'POST') {
         $username = $data['username'];
         $password = $data['password'];
 
-        $sql = "SELECT * FROM users WHERE username = :username";
-        $stmt = $pdo->prepare($sql);
-        $stmt->bindValue(':username', $username);
-        $stmt->execute();
-        $user = $stmt->fetch();
+        // find user by username
+        $user = $userModel->findByUsername($username);
+
 
         if (!$user || !password_verify($password, $user['password'])) {
             http_response_code(401);
@@ -118,6 +108,7 @@ if ($method_type === 'POST') {
                 'email' => $user['email']
             ]
         ]);
+        exit;
 
     } elseif ($action === 'logout') {
         // logout
@@ -132,57 +123,42 @@ if ($method_type === 'POST') {
     }
 }
 
-elseif ($method_type === 'DELETE') {
-    if ($action === 'delete_account') {
-        // delete_account
-        $authHeader = $_SERVER['HTTP_AUTHORIZATION']
-            ?? $_SERVER['REDIRECT_HTTP_AUTHORIZATION']
-            ?? getallheaders()['Authorization']
-            ?? '';
+// DELETE method
+if ($method_type === 'DELETE' && $action === 'delete_account') {
+    $authHeader = $_SERVER['HTTP_AUTHORIZATION']
+        ?? $_SERVER['REDIRECT_HTTP_AUTHORIZATION']
+        ?? getallheaders()['Authorization']
+        ?? '';
 
-        $matches = [];
-        if (!$authHeader) {
-            http_response_code(401);
-            echo json_encode(['error' => 'Authorization header missing']);
-            exit;
-        }
-
-        if (preg_match('/Bearer\s(\S+)/', $authHeader, $matches)) {
-            $jwt = $matches[1];
-        } else {
-            http_response_code(401);
-            echo json_encode(['error' => 'Authorization header format invalid']);
-            exit;
-        }
-
-        try {
-            $decoded = JWT::decode($jwt, new Key($_ENV['SECRET_KEY'], 'HS256'));
-            $userId = $decoded->sub;
-
-            // delete user sql
-            $sql = "DELETE FROM users WHERE id = :id";
-            $stmt = $pdo->prepare($sql);
-            $stmt->bindValue(':id', $userId);
-            $stmt->execute();
-
-            http_response_code(200);
-            echo json_encode(['message' => 'Account deleted successfully']);
-
-        } catch (Exception $e) {
-            http_response_code(401);
-            echo json_encode(['error' => 'Invalid token']);
-            exit;
-        }
-    } else {
-        http_response_code(400);
-        echo json_encode(['error' => 'Unknown DELETE action']);
+    // find by jwt
+    if (!preg_match('/Bearer\s(\S+)/', $authHeader, $matches)) {
+        http_response_code(401);
+        echo json_encode(['error' => 'Authorization header missing or invalid']);
+        exit;
     }
+
+    $jwt = $matches[1];
+
+    try {
+        $decoded = JWT::decode($jwt, new Key($_ENV['SECRET_KEY'], 'HS256'));
+        $userId = $decoded->sub;
+
+        // delete user
+        $userModel->deleteById($userId);
+        http_response_code(200);
+        echo json_encode(['message' => 'Account deleted successfully']);
+    } catch (Exception $e) {
+        http_response_code(401);
+        echo json_encode(['error' => 'Invalid token']);
+    }
+    exit;
 }
 
-else {
-    http_response_code(405);
-    echo json_encode(['error' => 'Method not allowed']);
-}
+http_response_code(405);
+echo json_encode(['error' => 'Method not allowed']);
+
+
+// --- Validation functions --- 
 
 // signin
 function validate_registration($data) {
@@ -191,7 +167,6 @@ function validate_registration($data) {
         'email' => '',
         'password' => ''
     ];
-
     $isValid = true;
 
     // username
@@ -223,7 +198,6 @@ function validate_login($data) {
         'username' => '',
         'password' => ''
     ];
-
     $isValid = true;
 
     if(empty($data['username'])) {
