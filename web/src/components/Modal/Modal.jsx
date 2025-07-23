@@ -98,7 +98,7 @@ function Modal() {
       setLoginSuccess(true);
     }
   };
-
+  
   return (
     <div className={`modal-overlay ${isActive ? "active" : ""}`}>
       <div className="modal-content" ref={modalRef}>
