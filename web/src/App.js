@@ -6,6 +6,9 @@ import About from "./pages/About/About";
 import Document from "./pages/Document/Document";
 import Mypage from "./pages/Mypage/Mypage";
 import Home from "./pages/Home/Home";
+
+import ProtectedRoute from "./components/Auth/ProtectedRoute";
+import Event from "./pages/Event/Event";
 import { sidebarOpenAtom } from "./atoms/uiAtoms";
 
 function App() {
@@ -26,6 +29,10 @@ function App() {
         <Route path="/about" element={<About />} />
         <Route path="/document" element={<Document />} />
         <Route path="/mypage" element={<Mypage />} />
+
+        <Route element={<ProtectedRoute />}>
+          <Route path="/event" element={<Event />} />
+        </Route>
       </Routes>
     </div>
   );

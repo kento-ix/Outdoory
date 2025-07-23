@@ -6,12 +6,14 @@ import Sidebar from "../Slidebar/Sidebar.jsx";
 import { Link } from "react-router-dom";
 import logo from "../../assets/logo2.png";
 import { useAtom } from "jotai";
-import { modalModeAtom, sidebarOpenAtom } from "../../atoms/uiAtoms";
+import { modalModeAtom, sidebarOpenAtom, viewModeAtom } from "../../atoms/uiAtoms";
 
 
 const Header = () => {
   const [modalMode] = useAtom(modalModeAtom);
   const [sidebarOpen, setSidebarOpen] = useAtom(sidebarOpenAtom);
+  
+  const [viewMode, setViewMode] = useAtom(viewModeAtom);
 
   return (
     <header className="main-header">
@@ -21,17 +23,27 @@ const Header = () => {
 
       <div className="middle">
         <div className="event-mode">
-          <button className="event">Events</button>
+          <button 
+            className={`event ${viewMode === "event" ? "active" : ""}`}
+            onClick={() => setViewMode("event")}
+          >
+            Events
+          </button>
         </div>
 
         <div className="experience-mode">
-          <button className="experience">Experience</button>
+          <button 
+            className={`experience ${viewMode === "experience" ? "active" : ""}`}
+            onClick={() => setViewMode("experience")}
+          > 
+            Experience
+          </button>
         </div>
 
-        <div className="filter">
+        {/* <div className="filter">
           <button className="tune-icon material-symbols-outlined">tune</button>
           <span>filtre</span>
-        </div>
+        </div> */}
       </div>
 
       <div className="nav-right">

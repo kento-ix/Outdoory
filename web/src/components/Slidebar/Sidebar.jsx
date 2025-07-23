@@ -72,6 +72,9 @@ const Sidebar = () => {
       setAuthUser(null);
       setAuthToken(null);
       setSidebarOpen(false);
+
+      localStorage.removeItem("token");
+      localStorage.removeItem("user");
     } else {
       setAuthError(data.error || "Logout failed");
     }

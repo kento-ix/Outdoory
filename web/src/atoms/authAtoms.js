@@ -1,7 +1,8 @@
 import { atom } from "jotai";
 
-export const authUserAtom = atom(null);
+const savedToken = localStorage.getItem("token");
+const savedUser = localStorage.getItem("user");
 
-export const authTokenAtom = atom(null);
-
+export const authTokenAtom = atom(savedToken || null);
+export const authUserAtom = atom(savedUser ? JSON.parse(savedUser) : null);
 export const authErrorAtom = atom('');
