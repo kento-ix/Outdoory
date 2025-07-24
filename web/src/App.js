@@ -9,6 +9,7 @@ import Home from "./pages/Home/Home";
 
 import ProtectedRoute from "./components/Auth/ProtectedRoute";
 import Event from "./pages/Event/Event";
+import Experience from "./pages/Experience/Experience";
 import { sidebarOpenAtom } from "./atoms/uiAtoms";
 
 function App() {
@@ -32,6 +33,7 @@ function App() {
 
         <Route element={<ProtectedRoute />}>
           <Route path="/event" element={<Event />} />
+          <Route path="/experience" element={<Experience />} />
         </Route>
       </Routes>
     </div>

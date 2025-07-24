@@ -1,6 +1,6 @@
 import "./Header.css";
 import "../Modal/Modal.css";
-import "../Slidebar/Slidebar.css";
+
 import Modal from "../Modal/Modal";
 import Sidebar from "../Slidebar/Sidebar.jsx";
 import { Link } from "react-router-dom";
@@ -39,11 +39,6 @@ const Header = () => {
             Experience
           </button>
         </div>
-
-        {/* <div className="filter">
-          <button className="tune-icon material-symbols-outlined">tune</button>
-          <span>filtre</span>
-        </div> */}
       </div>
 
       <div className="nav-right">

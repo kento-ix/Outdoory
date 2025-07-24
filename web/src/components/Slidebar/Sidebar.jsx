@@ -2,7 +2,7 @@ import { Link } from "react-router-dom";
 import "./Slidebar.css";
 import { useState, useEffect, useRef } from "react";
 import { useAtom } from "jotai";
-import { sidebarOpenAtom, modalModeAtom } from "../../atoms/uiAtoms";
+import { sidebarOpenAtom, modalModeAtom, viewModeAtom } from "../../atoms/uiAtoms";
 import { authUserAtom, authTokenAtom, authErrorAtom } from "../../atoms/authAtoms";
 import { logoutUser } from "../../arc/auth/authServices";
 
@@ -17,6 +17,8 @@ const Sidebar = () => {
 
   const [, setAuthToken] = useAtom(authTokenAtom);
   const [, setAuthError] = useAtom(authErrorAtom);
+
+  const [viewMode, setViewMode] = useAtom(viewModeAtom)
 
 
   // open sidebar
@@ -80,6 +82,16 @@ const Sidebar = () => {
     }
   };
 
+  const handleEventsClick = () => {
+    setViewMode("event");
+    handleClose();
+  };
+
+  const handleExperienceClick = () => {
+    setViewMode("experience");
+    handleClose();
+  };
+
 
   return (
     <div className={`right-slide ${isActive ? "active" : ""}`} ref={sidebarRef}>
@@ -88,8 +100,12 @@ const Sidebar = () => {
         <Link to="/about" className="about" onClick={handleLinkClick}>About</Link>
         <Link to="/document" className="document" onClick={handleLinkClick}>Documentation</Link>
         <Link to="/mypage" className="mypage" onClick={handleLinkClick}>Mypage</Link>
-        <button className="slide-event">Events</button>
-        <button className="slide-experience">Experience</button>
+        <button className={`slide-event ${viewMode === "event" ? "active" : ""}`} onClick={handleEventsClick}>
+          Events
+        </button>
+        <button className={`slide-experience ${viewMode === "experience" ? "active" : ""}`} onClick={handleExperienceClick}>
+          Experience
+        </button>
       </div>
       <div className="slide-bottom">
         {authUser ? (
