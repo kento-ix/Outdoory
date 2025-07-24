@@ -1,3 +1,80 @@
+/* Experience page container */
+.experience-page {
+    padding: 15px;
+    max-width: 100%;
+}
+
+.experience-form-container {
+    background: white;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    padding: 15px;
+    margin: 0 auto;
+    max-width: 100%;
+}
+
+.experience-form-container h2 {
+    font-size: 18px;
+    margin-bottom: 15px;
+    color: #333;
+}
+
+.experience-form-container form {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.experience-form-container div {
+    display: flex;
+    flex-direction: column;
+}
+
+.experience-form-container label {
+    margin-bottom: 5px;
+    font-weight: bold;
+    color: #333;
+    font-size: 14px;
+}
+
+.experience-form-container select,
+.experience-form-container textarea,
+.experience-form-container input[type="file"] {
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    font-size: 14px;
+}
+
+.experience-form-container textarea {
+    min-height: 100px;
+    resize: vertical;
+}
+
+.experience-form-container button {
+    background-color: #007bff;
+    color: white;
+    border: none;
+    padding: 12px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 14px;
+    font-weight: bold;
+    margin-top: 10px;
+}
+
+.experience-form-container button:hover {
+    background-color: #0056b3;
+}
+
+.experience-form-container p {
+    margin: 10px 0;
+    padding: 10px;
+    border-radius: 5px;
+    font-size: 14px;
+}
+
 /* Main card container */
 .event-card {
     background: white;
@@ -5,13 +82,13 @@
     border-radius: 8px;
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
     overflow: hidden;
-    margin-bottom: 20px;
+    margin-bottom: 15px;
 }
 
 /* Image section */
 .event-image {
     width: 100%;
-    height: 200px;
+    height: 150px;
     overflow: hidden;
 }
 
@@ -24,33 +101,35 @@
 /* When no image is available */
 .no-image {
     width: 100%;
-    height: 200px;
+    height: 150px;
     background-color: #f5f5f5;
     display: flex;
     align-items: center;
     justify-content: center;
     color: #666;
     font-style: italic;
+    font-size: 13px;
 }
 
 /* Content section */
 .event-content {
-    padding: 20px;
+    padding: 15px;
 }
 
 /* Event title */
 .event-title {
-    font-size: 20px;
+    font-size: 16px;
     font-weight: bold;
     color: #333;
-    margin: 0 0 15px 0;
+    margin: 0 0 12px 0;
+    line-height: 1.3;
 }
 
 /* Each line of event information */
 .event-info {
-    margin: 10px 0;
+    margin: 8px 0;
     color: #555;
-    font-size: 14px;
+    font-size: 13px;
     line-height: 1.4;
 }
 
@@ -60,8 +139,8 @@
 
 /* Actions section */
 .event-actions {
-    margin-top: 20px;
-    padding-top: 15px;
+    margin-top: 15px;
+    padding-top: 12px;
     border-top: 1px solid #eee;
 }
 
@@ -70,10 +149,10 @@
     background-color: #ff4757;
     color: white;
     border: none;
-    padding: 10px 20px;
+    padding: 8px 16px;
     border-radius: 5px;
     cursor: pointer;
-    font-size: 14px;
+    font-size: 13px;
     font-weight: bold;
 }
 
@@ -81,17 +160,84 @@
     background-color: #ff3742;
 }
 
-/* Mobile responsive */
-@media (max-width: 768px) {
+/* Desktop styles - min-width: 800px */
+@media (min-width: 800px) {
+    .experience-page {
+        padding: 30px;
+    }
+    
+    .experience-form-container {
+        padding: 30px;
+        max-width: 600px;
+    }
+    
+    .experience-form-container h2 {
+        font-size: 24px;
+        margin-bottom: 20px;
+    }
+    
+    .experience-form-container form {
+        gap: 20px;
+    }
+    
+    .experience-form-container label {
+        font-size: 16px;
+    }
+    
+    .experience-form-container select,
+    .experience-form-container textarea,
+    .experience-form-container input[type="file"] {
+        padding: 12px;
+        font-size: 16px;
+    }
+    
+    .experience-form-container textarea {
+        min-height: 120px;
+    }
+    
+    .experience-form-container button {
+        padding: 15px 25px;
+        font-size: 16px;
+    }
+    
+    .experience-form-container p {
+        font-size: 16px;
+    }
+    
+    .event-card {
+        margin-bottom: 20px;
+    }
+    
+    .event-image {
+        height: 200px;
+    }
+    
+    .no-image {
+        height: 200px;
+        font-size: 14px;
+    }
+    
     .event-content {
-        padding: 15px;
+        padding: 20px;
     }
     
     .event-title {
-        font-size: 18px;
+        font-size: 20px;
+        margin-bottom: 15px;
     }
     
     .event-info {
-        font-size: 13px;
+        margin: 10px 0;
+        font-size: 14px;
+    }
+    
+    .event-actions {
+        margin-top: 20px;
+        padding-top: 15px;
+    }
+    
+    .delete-btn {
+        padding: 10px 20px;
+        font-size: 14px;
     }
 }

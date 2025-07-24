@@ -41,38 +41,38 @@ const Experience = () => {
 
     return (
         <div className="experience-page">
-        <div className="experience-form-container">
-            <h2>Create Experience</h2>
-            {message && <p>{message}</p>}
-            <form onSubmit={handleSubmit}>
-            <div>
-                <label>Type:</label>
-                <select name="type" value={formData.type} onChange={handleChange} required>
-                <option value="photo">Photo</option>
-                <option value="article">Article</option>
-                </select>
-            </div>
+            <div className="experience-form-container">
+                <h2>Create Experience</h2>
+                {message && <p>{message}</p>}
+                <form onSubmit={handleSubmit}>
+                    <div>
+                        <label>Type:</label>
+                        <select name="type" value={formData.type} onChange={handleChange} required>
+                        <option value="photo">Photo</option>
+                        <option value="article">Article</option>
+                        </select>
+                    </div>
 
-            <div>
-                <label>Content:</label>
-                <textarea
-                name="content"
-                value={formData.content}
-                onChange={handleChange}
-                rows="5"
-                placeholder="Write your story or description..."
-                required
-                />
-            </div>
+                    <div>
+                        <label>Content:</label>
+                        <textarea
+                        name="content"
+                        value={formData.content}
+                        onChange={handleChange}
+                        rows="5"
+                        placeholder="Write your story or description..."
+                        required
+                        />
+                    </div>
 
-            <div>
-                <label>Upload Image:</label>
-                <input type="file" accept="image/*" onChange={handleFileChange} />
-            </div>
+                    <div>
+                        <label>Upload Image:</label>
+                        <input type="file" accept="image/*" onChange={handleFileChange} />
+                    </div>
 
-            <button type="submit">Create Experience</button>
-            </form>
-        </div>
+                    <button type="submit">Create Experience</button>
+                </form>
+            </div>
         </div>
     );
 };
