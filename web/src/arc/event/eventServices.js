@@ -68,6 +68,7 @@ export async function getEvents() {
     }
 }
 
+
 function normalizeImageUrl(imageUrl) {
     if (!imageUrl) return null;
 

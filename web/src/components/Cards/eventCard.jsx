@@ -39,12 +39,12 @@ const EventCard = ({ event, showActions = false, onDelete }) => {
 
     // Handle when image fails to load
     const handleImageError = () => {
-        console.log('Image failed to load:', getImageUrl());
+        const imageUrl = getImageUrl();
+        console.log('Image failed to load:', imageUrl);
         setImageError(true);
     };
 
     const imageUrl = getImageUrl();
-    const hasImage = imageUrl && !imageError;
 
     return (
         <div className="event-card">

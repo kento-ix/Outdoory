@@ -31,11 +31,11 @@ const Experience = () => {
         const { ok, data } = await postExperience({ type, content, image });
 
         if (!ok) {
-        setMessage(`Failed: ${data?.error || 'Something went wrong'}`);
+            setMessage(`Failed: ${data?.error || 'Something went wrong'}`);
         } else {
-        setMessage('Experience created successfully');
-        setFormData({ type: 'photo', content: '' });
-        setImage(null);
+            setMessage('Experience created successfully');
+            setFormData({ type: 'photo', content: '' });
+            setImage(null);
         }
     };
 
@@ -67,7 +67,7 @@ const Experience = () => {
 
                     <div>
                         <label>Upload Image:</label>
-                        <input type="file" accept="image/*" onChange={handleFileChange} />
+                        <input type="file" name="image" accept="image/*" onChange={handleFileChange} />
                     </div>
 
                     <button type="submit">Create Experience</button>

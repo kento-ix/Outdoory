@@ -39,44 +39,44 @@ const Event = () => {
             setFormData({ title: '', location: '', event_time: '', capacity: '' });
             setImages([]);
         }
-    }
+    };
 
     return (
-    <div className="event-page">
-        <div className="event-form-container">
-            <h2>Create event</h2>
-            {message && <p>{message}</p>}
-            <form onSubmit={handleSubmit}>
-            <div>
-                <label>Title:</label>
-                <input type="text" name="title" value={formData.title} onChange={handleChange} required />
-            </div>
+        <div className="event-page">
+            <div className="event-form-container">
+                <h2>Create event</h2>
+                {message && <p>{message}</p>}
+                <form onSubmit={handleSubmit}>
+                    <div>
+                        <label>Title:</label>
+                        <input type="text" name="title" value={formData.title} onChange={handleChange} required />
+                    </div>
 
-            <div>
-                <label>Location:</label>
-                <input type="text" name="location" value={formData.location} onChange={handleChange} />
-            </div>
+                    <div>
+                        <label>Location:</label>
+                        <input type="text" name="location" value={formData.location} onChange={handleChange} />
+                    </div>
 
-            <div>
-                <label>Date:</label>
-                <input type="datetime-local" name="event_time" value={formData.event_time} onChange={handleChange} required />
-            </div>
+                    <div>
+                        <label>Date:</label>
+                        <input type="datetime-local" name="event_time" value={formData.event_time} onChange={handleChange} required />
+                    </div>
 
-            <div>
-                <label>Capacity:</label>
-                <input type="number" name="capacity" value={formData.capacity} onChange={handleChange} />
-            </div>
+                    <div>
+                        <label>Capacity:</label>
+                        <input type="number" name="capacity" value={formData.capacity} onChange={handleChange} />
+                    </div>
 
-            <div>
-                <label>Upload Image:</label>
-                <input type="file" name="images" accept="image/*" multiple onChange={handleFileChange}/>
-            </div>
+                    <div>
+                        <label>Upload Image:</label>
+                        <input type="file" name="images" accept="image/*" multiple onChange={handleFileChange}/>
+                    </div>
 
-            <button type="submit">Event create</button>
-            </form>
+                    <button type="submit">Event create</button>
+                </form>
+            </div>
         </div>
-    </div>
-  );
+    );
 };
 
 export default Event;

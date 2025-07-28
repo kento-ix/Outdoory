@@ -59,6 +59,18 @@ const Home = () => {
             console.log('Fetch Experiences Result:', { ok, data, status });
             
             if (ok && data?.experiences) {
+                // デバッグ用ログを追加
+                data.experiences.forEach((experience, index) => {
+                    console.log(`Experience ${index + 1} (ID: ${experience.id}):`, {
+                        title: experience.title,
+                        content: experience.content,
+                        type: experience.type,
+                        image_url: experience.image_url,
+                        hasImageData: !!experience.image_url,
+                        fullObject: experience
+                    });
+                });
+                
                 setExperiences(data.experiences);
             } else {
                 const errorMessage = data?.error || `Failed to fetch experiences (Status: ${status})`;
@@ -110,15 +122,6 @@ const Home = () => {
                         </div>
                     )}
                     
-                    {!loading && !error && events.length === 0 && (
-                        <div className="no-content">
-                            <p>No events found.</p>
-                            <Link to={"/event"} className="create-first-content">
-                                Create your first event
-                            </Link>
-                        </div>
-                    )}
-                    
                     {!loading && !error && events.length > 0 && (
                         <div className="content-grid">
                             {events.map(event => (
@@ -144,27 +147,6 @@ const Home = () => {
                         <div className="loading">Loading experiences...</div>
                     )}
                     
-                    {error && (
-                        <div className="error-message">
-                            <p>Error: {error}</p>
-                            <button 
-                                onClick={fetchExperiences} 
-                                className="retry-button"
-                            >
-                                Retry
-                            </button>
-                        </div>
-                    )}
-                    
-                    {!loading && !error && experiences.length === 0 && (
-                        <div className="no-content">
-                            <p>No experiences found.</p>
-                            <Link to={"/experience"} className="create-first-content">
-                                Share your first experience
-                            </Link>
-                        </div>
-                    )}
-                    
                     {!loading && !error && experiences.length > 0 && (
                         <div className="content-grid">
                             {experiences.map(experience => (
@@ -180,6 +162,4 @@ const Home = () => {
             )}
         </div>
     );
-};
-
-export default Home;
+};export default Home;
