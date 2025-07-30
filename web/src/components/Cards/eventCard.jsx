@@ -47,9 +47,8 @@ const EventCard = ({
     };
 
     const handleEditClick = () => {
-        // 編集モード開始時に現在の値をセット
         const eventDate = new Date(event.event_time);
-        const formattedDateTime = eventDate.toISOString().slice(0, 16); // YYYY-MM-DDTHH:MM format
+        const formattedDateTime = eventDate.toISOString().slice(0, 16);
         
         setEditData({
             event_time: formattedDateTime,
@@ -67,7 +66,6 @@ const EventCard = ({
     };
 
     const handleUpdateSubmit = async () => {
-        // バリデーション
         if (!editData.event_time) {
             alert('Event date and time is required');
             return;
@@ -78,7 +76,6 @@ const EventCard = ({
             return;
         }
 
-        // 過去の日付チェック
         const selectedDate = new Date(editData.event_time);
         if (selectedDate < new Date()) {
             alert('Event time cannot be in the past');
@@ -87,7 +84,6 @@ const EventCard = ({
 
         setIsLoading(true);
         try {
-            // datetime-local形式からMySQL形式に変換
             const mysqlDateTime = editData.event_time.replace('T', ' ') + ':00';
             
             const updateData = {
@@ -164,7 +160,6 @@ const EventCard = ({
             <div className="event-content">
                 <h3 className="event-title">{event.title}</h3>
                 
-                {/* 主催者表示 */}
                 {event.username && (
                     <p className="event-info">
                         <strong>Host:</strong> {event.username}
@@ -178,7 +173,6 @@ const EventCard = ({
                     </p>
                 )}
                 
-                {/* 日時表示 - 編集モードでは入力フィールド */}
                 <p className="event-info">
                     <strong>Date & Time:</strong> 
                     {isEditing ? (
@@ -194,7 +188,6 @@ const EventCard = ({
                     )}
                 </p>
                 
-                {/* 参加者数・定員表示 - 定員は編集可能 */}
                 <p className="event-info">
                     <strong>Participants:</strong> 
                     {event.participant_count !== undefined ? event.participant_count : 0}
@@ -222,10 +215,8 @@ const EventCard = ({
                     <strong>Created:</strong> {formatDate(event.created_at)}
                 </p>
                 
-                {/* アクションボタンセクション */}
                 {(showActions || showParticipation) && (
                     <div className="event-actions">
-                        {/* オーナー用ボタン */}
                         {showActions && isOwner && (
                             <div className="owner-actions">
                                 {isEditing ? (
@@ -266,7 +257,7 @@ const EventCard = ({
                             </div>
                         )}
                         
-                        {/* 参加者用ボタン */}
+
                         {showParticipation && !isOwner && (
                             <>
                                 {event.is_participating ? (
@@ -289,7 +280,6 @@ const EventCard = ({
                             </>
                         )}
                         
-                        {/* 主催者への参加状況表示 */}
                         {showParticipation && isOwner && (
                             <div className="owner-status">
                                 <span className="host-badge">Event Host</span>
