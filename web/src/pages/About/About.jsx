@@ -3,14 +3,17 @@ import './About.css';
 import findImage from "../../assets/about/find-friend.jpg";
 import joinImage from "../../assets/about/join-event.jpg";
 import shareImage from "../../assets/about/share-experience.jpg";
+import swimBoy from "../../assets/about/swimming.png";
+import runGirl from "../../assets/about/running.png";
+import hikeBoy from "../../assets/about/hiking.png";
 
 const About = () => {
   return (
     <main>
       <div className="first-content">
-        <h2 className="one">one</h2>
-        <h2 className="two">two</h2>
-        <h2 className="three">three</h2>
+        <img src={runGirl} alt="runnning girl" className='one' />
+        <img src={swimBoy} alt="swimming boy" className='two'/>
+        <img src={hikeBoy} alt="hiking boy"  className='three'/>
 
         <p>
           This web application is designed for people who enjoy outdoor activities.<br/>

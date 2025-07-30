@@ -76,8 +76,49 @@
     background-color: #bd2130;
 }
 
-/* レスポンシブデザイン */
-@media (max-width: 768px) {
+.owner-badge {
+    color: #007bff;
+    font-weight: bold;
+}
+
+.capacity-full {
+    color: #dc3545;
+    font-weight: bold;
+}
+
+.join-btn {
+    background-color: #28a745;
+    color: white;
+    border: none;
+    padding: 8px 16px;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.join-btn:disabled {
+    background-color: #6c757d;
+    cursor: not-allowed;
+}
+
+.leave-btn {
+    background-color: #dc3545;
+    color: white;
+    border: none;
+    padding: 8px 16px;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.host-badge {
+    background-color: #17a2b8;
+    color: white;
+    padding: 4px 8px;
+    border-radius: 12px;
+    font-size: 0.8em;
+}
+
+
+@media (max-width: 800px) {
     .event-card {
         padding: 12px;
         margin-bottom: 12px;

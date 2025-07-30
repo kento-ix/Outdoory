@@ -29,9 +29,8 @@
 .first-content {
     display: grid;
     grid-template-columns: 1fr;
-    grid-template-rows: 1fr 80px 80px 80px 100px;
+    grid-template-rows: 1fr 180px 180px 180px 100px;
     background-color: var(--background-color);
-    margin-top: 1rem;
 }
 
 .first-content > p {
@@ -61,6 +60,9 @@
 .one {
     grid-row: 2/3;
     animation: right-slide 1.6s ease forwards;
+
+    width: 150px;
+    height: auto;
 }
 
 .two {
@@ -70,12 +72,18 @@
     opacity: 0;
     animation: left-slide 1.6s ease forwards;
     animation-delay: 1.6s;
+
+    width: 150px;
+    height: auto;
 }
 
 .three {
     grid-row: 4/5;
     animation: right-slide 1.6s ease forwards;
     animation-delay: 3.2s;
+
+    width: 150px;
+    height: auto;
 }
 
 .home-link {

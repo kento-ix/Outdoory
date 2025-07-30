@@ -1,9 +1,11 @@
 import { useAtom } from 'jotai';
 import { viewModeAtom } from '../../atoms/uiAtoms';
+import { authUserAtom } from '../../atoms/authAtoms';
 import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { getEvents } from '../../arc/event/eventServices';
 import { getExperiences } from '../../arc/experience/experienceServices';
+import { joinEvent, leaveEvent, getEventDetail } from '../../arc/event/eventParticipantServices';
 import EventCard from '../../components/Cards/eventCard';
 import ExperienceCard from '../../components/Cards/experienceCard';
 
@@ -11,6 +13,7 @@ import './Home.css';
 
 const Home = () => {
     const [viewMode] = useAtom(viewModeAtom);
+    const [currentUser] = useAtom(authUserAtom);
     const [events, setEvents] = useState([]);
     const [experiences, setExperiences] = useState([]);
     const [loading, setLoading] = useState(true);
@@ -26,16 +29,21 @@ const Home = () => {
             console.log('Fetch Events Result:', { ok, data, status });
             
             if (ok && data?.events) {
-                data.events.forEach((event, index) => {
-                    console.log(`Event ${index + 1} (ID: ${event.id}):`, {
-                        title: event.title,
-                        image_url: event.image_url,
-                        images: event.images,
-                        hasImageData: !!event.image_url || (event.images && event.images.length > 0)
-                    });
-                });
+                const eventsWithDetails = await Promise.all(
+                    data.events.map(async (event) => {
+                        try {
+                            const detailResult = await getEventDetail(event.id);
+                            if (detailResult.ok && detailResult.data?.event) {
+                                return detailResult.data.event;
+                            }
+                        } catch (error) {
+                            console.error(`Failed to fetch details for event ${event.id}:`, error);
+                        }
+                        return { ...event, participant_count: 0, is_participating: false };
+                    })
+                );
                 
-                setEvents(data.events);
+                setEvents(eventsWithDetails);
             } else {
                 const errorMessage = data?.error || `Failed to fetch events (Status: ${status})`;
                 console.error('Events fetch error:', errorMessage);
@@ -59,7 +67,6 @@ const Home = () => {
             console.log('Fetch Experiences Result:', { ok, data, status });
             
             if (ok && data?.experiences) {
-                // デバッグ用ログを追加
                 data.experiences.forEach((experience, index) => {
                     console.log(`Experience ${index + 1} (ID: ${experience.id}):`, {
                         title: experience.title,
@@ -83,6 +90,44 @@ const Home = () => {
         }
         
         setLoading(false);
+    };
+
+    // イベント参加処理
+    const handleJoin = async (eventId) => {
+        try {
+            const result = await joinEvent(eventId);
+            
+            if (result.ok) {
+                console.log('Successfully joined event:', eventId);
+                // イベント一覧を再取得して最新状態に更新
+                fetchEvents();
+            } else {
+                console.error('Failed to join event:', result.data?.error);
+                alert(result.data?.error || 'Failed to join event');
+            }
+        } catch (error) {
+            console.error('Join event exception:', error);
+            alert('An error occurred while joining the event');
+        }
+    };
+
+    // イベント離脱処理
+    const handleLeave = async (eventId) => {
+        try {
+            const result = await leaveEvent(eventId);
+            
+            if (result.ok) {
+                console.log('Successfully left event:', eventId);
+                // イベント一覧を再取得して最新状態に更新
+                fetchEvents();
+            } else {
+                console.error('Failed to leave event:', result.data?.error);
+                alert(result.data?.error || 'Failed to leave event');
+            }
+        } catch (error) {
+            console.error('Leave event exception:', error);
+            alert('An error occurred while leaving the event');
+        }
     };
 
     useEffect(() => {
@@ -109,16 +154,10 @@ const Home = () => {
                     {loading && (
                         <div className="loading">Loading events...</div>
                     )}
-                    
-                    {error && (
-                        <div className="error-message">
-                            <p>Error: {error}</p>
-                            <button 
-                                onClick={fetchEvents} 
-                                className="retry-button"
-                            >
-                                Retry
-                            </button>
+
+                    {!loading && !error && events.length === 0 && (
+                        <div className="no-content">
+                            <p>No events available.</p>
                         </div>
                     )}
                     
@@ -126,9 +165,13 @@ const Home = () => {
                         <div className="content-grid">
                             {events.map(event => (
                                 <EventCard 
-                                    key={event.id} 
+                                    key={event.id}
                                     event={event}
                                     showActions={false}
+                                    showParticipation={true}
+                                    isOwner={currentUser && event.user_id === currentUser.id}
+                                    onJoin={handleJoin}
+                                    onLeave={handleLeave}
                                 />
                             ))}
                         </div>
@@ -146,6 +189,12 @@ const Home = () => {
                     {loading && (
                         <div className="loading">Loading experiences...</div>
                     )}
+
+                    {!loading && !error && experiences.length === 0 && (
+                        <div className="no-content">
+                            <p>No experiences available.</p>
+                        </div>
+                    )}
                     
                     {!loading && !error && experiences.length > 0 && (
                         <div className="content-grid">
@@ -162,4 +211,6 @@ const Home = () => {
             )}
         </div>
     );
-};export default Home;
+};
+
+export default Home;

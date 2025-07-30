@@ -1,22 +1,33 @@
-// event create async
-export async function postEvent({title, location, event_time, capacity, images}) {
-    const formData = new FormData();
-    formData.append('title', title);
-    formData.append('location', location);
-    formData.append('event_time', event_time);
-    formData.append('capacity', capacity);
-
-    if(images && images.length > 0) {
-        for(let i = 0; i < images.length; i++) {
-            formData.append('images[]', images[i]);
-        }
-    }
-
+// join event async
+export async function joinEvent(eventId) {
     try {
-        const res = await fetch("http://localhost/api/routes/events.php?action=create", {
+        const res = await fetch("http://localhost/api/routes/eventParticipants.php?action=join", {
             method: "POST",
-            body: formData,
             headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${localStorage.getItem('token') || ''}`
+            },
+            body: JSON.stringify({
+                event_id: eventId
+            })
+        });
+
+        const data = await res.json();
+        
+        return { ok: res.ok, data, status: res.status };
+    } catch (error) {
+        console.error('Join Event Error:', error);
+        return { ok: false, data: { error: error.message }, status: 0 };
+    }
+}
+
+// cancel event async
+export async function leaveEvent(eventId) {
+    try {
+        const res = await fetch(`http://localhost/api/routes/eventParticipants.php?action=leave&event_id=${eventId}`, {
+            method: "DELETE",
+            headers: {
+                'Content-Type': 'application/json',
                 'Authorization': `Bearer ${localStorage.getItem('token') || ''}`
             }
         });
@@ -25,15 +36,55 @@ export async function postEvent({title, location, event_time, capacity, images})
         
         return { ok: res.ok, data, status: res.status };
     } catch (error) {
-        console.error('Post Event Error:', error);
+        console.error('Leave Event Error:', error);
         return { ok: false, data: { error: error.message }, status: 0 };
     }
-};
+}
 
-// get events async
-export async function getEvents() {
+// get event participant async
+export async function getEventParticipants(eventId) {
     try {
-        const res = await fetch("http://localhost/api/routes/events.php?action=list", {
+        const res = await fetch(`http://localhost/api/routes/eventParticipants.php?action=participants&event_id=${eventId}`, {
+            method: "GET",
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${localStorage.getItem('token') || ''}`
+            }
+        });
+
+        const data = await res.json();
+        
+        return { ok: res.ok, data, status: res.status };
+    } catch (error) {
+        console.error('Get Event Participants Error:', error);
+        return { ok: false, data: { error: error.message }, status: 0 };
+    }
+}
+
+// get participant async
+export async function checkParticipationStatus(eventId) {
+    try {
+        const res = await fetch(`http://localhost/api/routes/eventParticipants.php?action=check&event_id=${eventId}`, {
+            method: "GET",
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${localStorage.getItem('token') || ''}`
+            }
+        });
+
+        const data = await res.json();
+        
+        return { ok: res.ok, data, status: res.status };
+    } catch (error) {
+        console.error('Check Participation Status Error:', error);
+        return { ok: false, data: { error: error.message }, status: 0 };
+    }
+}
+
+// get a list of join user async
+export async function getMyParticipatingEvents() {
+    try {
+        const res = await fetch("http://localhost/api/routes/eventParticipants.php?action=my_events", {
             method: "GET",
             headers: {
                 'Content-Type': 'application/json',
@@ -63,53 +114,15 @@ export async function getEvents() {
         
         return { ok: res.ok, data, status: res.status };
     } catch (error) {
-        console.error('Get Events Error:', error);
+        console.error('Get My Participating Events Error:', error);
         return { ok: false, data: { error: error.message }, status: 0 };
     }
-};
+}
 
-// get user's own events async
-export async function getUserEvents() {
+// get event detail async
+export async function getEventDetail(eventId) {
     try {
-        const res = await fetch("http://localhost/api/routes/events.php?action=user", {
-            method: "GET",
-            headers: {
-                'Content-Type': 'application/json',
-                'Authorization': `Bearer ${localStorage.getItem('token') || ''}`
-            }
-        });
-
-        const data = await res.json();
-        
-        if (data?.events && Array.isArray(data.events)) {
-            data.events = data.events.map(event => {
-                if (event.image_url) {
-                    event.image_url = normalizeImageUrl(event.image_url);
-                }
-                
-                if (event.images && typeof event.images === 'string') {
-                    try {
-                        event.images = JSON.parse(event.images);
-                    } catch (e) {
-                        event.images = event.images.split(',').map(img => img.trim());
-                    }
-                }
-                
-                return event;
-            });
-        }
-        
-        return { ok: res.ok, data, status: res.status };
-    } catch (error) {
-        console.error('Get User Events Error:', error);
-        return { ok: false, data: { error: error.message }, status: 0 };
-    }
-};
-
-// get event info async
-export async function getEvent(eventId) {
-    try {
-        const res = await fetch(`http://localhost/api/routes/events.php?action=get&id=${eventId}`, {
+        const res = await fetch(`http://localhost/api/routes/eventParticipants.php?action=event_detail&event_id=${eventId}`, {
             method: "GET",
             headers: {
                 'Content-Type': 'application/json',
@@ -125,39 +138,11 @@ export async function getEvent(eventId) {
         
         return { ok: res.ok, data, status: res.status };
     } catch (error) {
-        console.error('Get Event Error:', error);
+        console.error('Get Event Detail Error:', error);
         return { ok: false, data: { error: error.message }, status: 0 };
     }
-};
+}
 
-// delete event async
-export const deleteEvent = async (eventId) => {
-    try {
-        const token = localStorage.getItem('token');
-        const response = await fetch(`http://localhost/api/routes/events.php?action=delete&event_id=${eventId}`, {
-            method: 'DELETE',
-            headers: {
-                'Authorization': `Bearer ${token}`,
-                'Content-Type': 'application/json'
-            }
-        });
-
-        const data = await response.json();
-        
-        return {
-            ok: response.ok,
-            data: data,
-            status: response.status
-        };
-    } catch (error) {
-        console.error('Delete event error:', error);
-        return {
-            ok: false,
-            data: { error: 'Network error' },
-            status: 500
-        };
-    }
-};
 
 // fix image path
 function normalizeImageUrl(imageUrl) {
@@ -178,4 +163,4 @@ function normalizeImageUrl(imageUrl) {
     } else {
         return '/api/uploads/' + imageUrl.replace(/^\//, '');
     }
-};
+}

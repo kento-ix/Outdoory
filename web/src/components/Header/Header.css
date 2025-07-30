@@ -3,6 +3,7 @@ header {
     border-bottom: 1px solid rgb(177, 175, 175);
     position: sticky;
     top: 0;
+    background-color: rgb(255, 226, 169);
 }
 
 .main-header {

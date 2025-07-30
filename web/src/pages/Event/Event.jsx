@@ -66,7 +66,7 @@ const Event = () => {
                         <label>Capacity:</label>
                         <input type="number" name="capacity" value={formData.capacity} onChange={handleChange} />
                     </div>
-
+                    
                     <div>
                         <label>Upload Image:</label>
                         <input type="file" name="images" accept="image/*" multiple onChange={handleFileChange}/>

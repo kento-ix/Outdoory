@@ -1,18 +1,45 @@
 import './EventCard.css';
 import { useState } from 'react';
 
-const EventCard = ({ event, showActions = false, onDelete }) => {
-    // State to track if image failed to load
-    const [imageError, setImageError] = useState(false);
+const EventCard = ({ 
+    event, 
+    showActions = false,
+    showParticipation = false,
+    isOwner = false,
+    onDelete,
+    onJoin,
+    onLeave
+}) => {
 
-    // Delete event function
+    const [imageError, setImageError] = useState(false);
+    const [isLoading, setIsLoading] = useState(false);
+
     const handleDelete = () => {
         if (window.confirm('Are you sure you want to delete this event?')) {
             onDelete(event.id);
         }
     };
 
-    // Format date to readable string
+    const handleJoin = async () => {
+        setIsLoading(true);
+        try {
+            await onJoin(event.id);
+        } finally {
+            setIsLoading(false);
+        }
+    };
+
+    const handleLeave = async () => {
+        if (window.confirm('Are you sure you want to leave this event?')) {
+            setIsLoading(true);
+            try {
+                await onLeave(event.id);
+            } finally {
+                setIsLoading(false);
+            }
+        }
+    };
+
     const formatDate = (dateString) => {
         const date = new Date(dateString);
         return date.toLocaleDateString('en-US', {
@@ -24,20 +51,16 @@ const EventCard = ({ event, showActions = false, onDelete }) => {
         });
     };
 
-    // Create the correct image URL
     const getImageUrl = () => {
         if (!event.image_url) return null;
         
-        // If it's already a full URL, use it
         if (event.image_url.startsWith('http')) {
             return event.image_url;
         }
         
-        // Build the API URL for the image
         return `http://localhost/api/uploads/${event.image_url.replace('/uploads/', '')}`;
     };
 
-    // Handle when image fails to load
     const handleImageError = () => {
         const imageUrl = getImageUrl();
         console.log('Image failed to load:', imageUrl);
@@ -45,6 +68,15 @@ const EventCard = ({ event, showActions = false, onDelete }) => {
     };
 
     const imageUrl = getImageUrl();
+    const isCapacityFull = event.capacity && event.participant_count >= event.capacity;
+
+    console.log('Event participation debug:', {
+        eventId: event.id,
+        isParticipating: event.is_participating,
+        isOwner: isOwner,
+        showParticipation: showParticipation,
+        participantCount: event.participant_count
+    });
 
     return (
         <div className="event-card">
@@ -64,10 +96,18 @@ const EventCard = ({ event, showActions = false, onDelete }) => {
                     )}
                 </div>
             )}
-            
+                  
             {/* Event Details Section */}
             <div className="event-content">
                 <h3 className="event-title">{event.title}</h3>
+                
+                {/* 主催者表示 */}
+                {event.username && (
+                    <p className="event-info">
+                        <strong>Host:</strong> {event.username}
+                        {isOwner && <span className="owner-badge"> (You)</span>}
+                    </p>
+                )}
                 
                 {event.location && (
                     <p className="event-info">
@@ -79,25 +119,61 @@ const EventCard = ({ event, showActions = false, onDelete }) => {
                     <strong>Date & Time:</strong> {formatDate(event.event_time)}
                 </p>
                 
-                {event.capacity && (
-                    <p className="event-info">
-                        <strong>Capacity:</strong> {event.capacity} people
-                    </p>
-                )}
+                {/* 参加者数・定員表示 */}
+                <p className="event-info">
+                    <strong>Participants:</strong> 
+                    {event.participant_count !== undefined ? event.participant_count : 0}
+                    {event.capacity && ` / ${event.capacity}`} people
+                    {isCapacityFull && <span className="capacity-full"> (Full)</span>}
+                </p>
                 
                 <p className="event-info">
                     <strong>Created:</strong> {formatDate(event.created_at)}
                 </p>
                 
-                {/* Delete Button (only show if needed) */}
-                {showActions && (
+                {/* アクションボタンセクション */}
+                {(showActions || showParticipation) && (
                     <div className="event-actions">
-                        <button 
-                            className="delete-btn" 
-                            onClick={handleDelete}
-                        >
-                            Delete Event
-                        </button>
+                        {/* for host */}
+                        {showActions && isOwner && (
+                            <button 
+                                className="delete-btn" 
+                                onClick={handleDelete}
+                                disabled={isLoading}
+                            >
+                                Delete Event
+                            </button>
+                        )}
+                        
+                        {/* for participant */}
+                        {showParticipation && !isOwner && (
+                            <>
+                                {event.is_participating ? (
+                                    <button 
+                                        className="leave-btn" 
+                                        onClick={handleLeave}
+                                        disabled={isLoading}
+                                    >
+                                        {isLoading ? 'Leaving...' : 'Leave Event'}
+                                    </button>
+                                ) : (
+                                    <button 
+                                        className="join-btn" 
+                                        onClick={handleJoin}
+                                        disabled={isLoading || isCapacityFull}
+                                    >
+                                        {isLoading ? 'Joining...' : isCapacityFull ? 'Event Full' : 'Join Event'}
+                                    </button>
+                                )}
+                            </>
+                        )}
+                        
+                        {/* 主催者への参加状況表示 */}
+                        {showParticipation && isOwner && (
+                            <div className="owner-status">
+                                <span className="host-badge">Event Host</span>
+                            </div>
+                        )}
                     </div>
                 )}
             </div>

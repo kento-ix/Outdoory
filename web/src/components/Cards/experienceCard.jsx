@@ -24,20 +24,16 @@ const ExperienceCard = ({ experience, showActions = false, onDelete }) => {
         });
     };
 
-    // Create the correct image URL (matching EventCard logic)
     const getImageUrl = () => {
         if (!experience.image_url) return null;
         
-        // If it's already a full URL, use it
         if (experience.image_url.startsWith('http')) {
             return experience.image_url;
         }
         
-        // Build the API URL for the image (same as EventCard)
         return `http://localhost/api/uploads/${experience.image_url.replace('/uploads/', '')}`;
     };
 
-    // Handle when image fails to load
     const handleImageError = () => {
         const imageUrl = getImageUrl();
         console.log('Experience image failed to load:', imageUrl);
