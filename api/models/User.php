@@ -7,14 +7,18 @@ class User {
     }
 
     public function findByUsername($username) {
-        $stmt = $this->pdo->prepare("SELECT * FROM users WHERE username = :username");
+        $pdo = $this->pdo;
+        $sql = "SELECT * FROM users WHERE username = :username";
+        $stmt = $pdo->prepare($sql);
         $stmt->bindValue(':username', $username);
         $stmt->execute();
         return $stmt->fetch();
     }
 
     public function exists($username, $email) {
-        $stmt = $this->pdo->prepare("SELECT COUNT(*) FROM users WHERE username = :username OR email = :email");
+        $pdo = $this->pdo;
+        $sql = "SELECT COUNT(*) FROM users WHERE username = :username OR email = :email";
+        $stmt = $pdo->prepare($sql);
         $stmt->bindValue(':username', $username);
         $stmt->bindValue(':email', $email);
         $stmt->execute();
@@ -22,7 +26,9 @@ class User {
     }
 
     public function create($username, $email, $hashedPassword) {
-        $stmt = $this->pdo->prepare("INSERT INTO users (username, email, password) VALUES (:username, :email, :password)");
+        $pdo = $this->pdo;
+        $sql = "INSERT INTO users (username, email, password) VALUES (:username, :email, :password)";
+        $stmt = $pdo->prepare($sql);
         $stmt->bindValue(':username', $username);
         $stmt->bindValue(':email', $email);
         $stmt->bindValue(':password', $hashedPassword);
@@ -30,7 +36,9 @@ class User {
     }
 
     public function deleteById($id) {
-        $stmt = $this->pdo->prepare("DELETE FROM users WHERE id = :id");
+        $pdo = $this->pdo;
+        $sql = "DELETE FROM users WHERE id = :id";
+        $stmt = $pdo->prepare($sql);
         $stmt->bindValue(':id', $id);
         return $stmt->execute();
     }

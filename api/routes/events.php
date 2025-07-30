@@ -4,27 +4,14 @@ require_once __DIR__ . '/../db/db.php';
 require_once __DIR__ . '/../models/User.php';
 require_once __DIR__ . '/../models/Event.php';
 
-use Firebase\JWT\JWT;
-use Firebase\JWT\Key;
-
-header("Access-Control-Allow-Origin: http://localhost:3000");
-header("Access-Control-Allow-Credentials: true");
-header("Access-Control-Allow-Headers: Content-Type, Authorization");
-header("Access-Control-Allow-Methods: GET, POST, DELETE, OPTIONS");
-
-if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
-    http_response_code(200);
-    exit();
-}
-
-header('Content-Type: application/json');
-
-$method_type = $_SERVER['REQUEST_METHOD'];
-$data = json_decode(file_get_contents("php://input"), true) ?? [];
-$action = $_GET['action'] ?? null;
+require_once __DIR__ . '/../utils/api_headers.php';
+require_once __DIR__ . '/../utils/jwt_helper.php';
+require_once __DIR__ . '/../utils/request_helper.php';
 
 $eventModel = new Event($pdo);
 
+
+// post event
 if ($method_type === 'POST' && $action === 'create') {
     $userId = getUserIdFromToken();
 
@@ -79,12 +66,23 @@ if ($method_type === 'POST' && $action === 'create') {
 }
 
 
+// get all event list
 if ($method_type === 'GET' && $action === 'list') {
     $events = $eventModel->getAll();
     echo json_encode(['events' => $events]);
     exit();
 }
 
+// get event by user
+if ($method_type === 'GET' && $action === 'user') {
+    $userId = getUserIdFromToken();
+    
+    $events = $eventModel->getByUserId($userId);
+    echo json_encode(['events' => $events]);
+    exit();
+}
+
+// delete event
 if ($method_type === 'DELETE' && $action === 'delete') {
     $userId = getUserIdFromToken();
     $eventId = $_GET['event_id'] ?? null;
@@ -105,30 +103,61 @@ if ($method_type === 'DELETE' && $action === 'delete') {
     exit();
 }
 
+// update event
+if ($method_type === 'PUT' && $action === 'update') {
+    $userId = getUserIdFromToken();
+    $eventId = $_GET['event_id'] ?? null;
+    
+    if (!$eventId) {
+        http_response_code(400);
+        echo json_encode(['error' => 'event_id is required']);
+        exit();
+    }
+    
+    $eventTime = $data['event_time'] ?? null;
+    $capacity = isset($data['capacity']) ? (int)$data['capacity'] : null;
+    
+    if ($eventTime === null && $capacity === null) {
+        http_response_code(400);
+        echo json_encode(['error' => 'At least one field (event_time or capacity) is required']);
+        exit();
+    }
+    
+    if ($eventTime !== null) {
+        $dateTime = DateTime::createFromFormat('Y-m-d H:i:s', $eventTime);
+        if (!$dateTime || $dateTime->format('Y-m-d H:i:s') !== $eventTime) {
+            http_response_code(400);
+            echo json_encode(['error' => 'Invalid date format. Use YYYY-MM-DD HH:MM:SS']);
+            exit();
+        }
+        
+        if ($dateTime < new DateTime()) {
+            http_response_code(400);
+            echo json_encode(['error' => 'Event time cannot be in the past']);
+            exit();
+        }
+    }
+    
+    if ($capacity !== null && $capacity <= 0) {
+        http_response_code(400);
+        echo json_encode(['error' => 'Capacity must be greater than 0']);
+        exit();
+    }
+    
+    $result = $eventModel->updateEventDetails($eventId, $userId, $eventTime, $capacity);
+    
+    if ($result['success']) {
+        http_response_code(200);
+        echo json_encode(['message' => $result['message']]);
+    } else {
+        $statusCode = ($result['error'] === 'Event not found or permission denied') ? 403 : 400;
+        http_response_code($statusCode);
+        echo json_encode(['error' => $result['error']]);
+    }
+    exit();
+}
+
 http_response_code(405);
 echo json_encode(['error' => 'Method not allowed']);
 
 
-function getUserIdFromToken() {
-    global $pdo;
-    $authHeader = $_SERVER['HTTP_AUTHORIZATION']
-        ?? $_SERVER['REDIRECT_HTTP_AUTHORIZATION']
-        ?? getallheaders()['Authorization']
-        ?? '';
-
-    if (!preg_match('/Bearer\s(\S+)/', $authHeader, $matches)) {
-        http_response_code(401);
-        echo json_encode(['error' => 'Authorization header missing or invalid']);
-        exit();
-    }
-
-    $jwt = $matches[1];
-    try {
-        $decoded = JWT::decode($jwt, new Key($_ENV['SECRET_KEY'], 'HS256'));
-        return $decoded->sub;
-    } catch (Exception $e) {
-        http_response_code(401);
-        echo json_encode(['error' => 'Invalid token']);
-        exit();
-    }
-}

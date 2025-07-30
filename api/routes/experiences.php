@@ -4,24 +4,9 @@ require_once __DIR__ . '/../db/db.php';
 require_once __DIR__ . '/../models/User.php';
 require_once __DIR__ . '/../models/Experience.php';
 
-use Firebase\JWT\JWT;
-use Firebase\JWT\Key;
-
-header("Access-Control-Allow-Origin: http://localhost:3000");
-header("Access-Control-Allow-Credentials: true");
-header("Access-Control-Allow-Headers: Content-Type, Authorization");
-header("Access-Control-Allow-Methods: GET, POST, DELETE, OPTIONS");
-
-if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
-    http_response_code(200);
-    exit();
-}
-
-header('Content-Type: application/json');
-
-$method_type = $_SERVER['REQUEST_METHOD'];
-$data = json_decode(file_get_contents("php://input"), true) ?? [];
-$action = $_GET['action'] ?? null;
+require_once __DIR__ . '/../utils/api_headers.php';
+require_once __DIR__ . '/../utils/jwt_helper.php';
+require_once __DIR__ . '/../utils/request_helper.php';
 
 $experienceModel = new Experience($pdo);
 
@@ -33,7 +18,6 @@ if ($method_type === 'POST' && $action === 'create') {
 
     $imageUrl = null;
 
-    // 修正: 'image'フィールドをチェック（配列ではなく単一ファイル）
     if (isset($_FILES['image']) && $_FILES['image']['error'] === UPLOAD_ERR_OK) {
         $uploadDir = __DIR__ . '/../uploads/';
         if (!is_dir($uploadDir)) {
@@ -78,6 +62,14 @@ if ($method_type === 'GET' && $action === 'list') {
     exit();
 }
 
+if ($method_type === 'GET' && $action === 'user') {
+    $userId = getUserIdFromToken();
+    
+    $experiences = $experienceModel->getByUserId($userId);
+    echo json_encode(['experiences' => $experiences]);
+    exit();
+}
+
 if ($method_type === 'DELETE' && $action === 'delete') {
     $userId = getUserIdFromToken();
     $experienceId = $_GET['id'] ?? null;
@@ -100,27 +92,3 @@ if ($method_type === 'DELETE' && $action === 'delete') {
 
 http_response_code(405);
 echo json_encode(['error' => 'Method not allowed']);
-
-function getUserIdFromToken() {
-    global $pdo;
-    $authHeader = $_SERVER['HTTP_AUTHORIZATION']
-        ?? $_SERVER['REDIRECT_HTTP_AUTHORIZATION']
-        ?? getallheaders()['Authorization']
-        ?? '';
-
-    if (!preg_match('/Bearer\s(\S+)/', $authHeader, $matches)) {
-        http_response_code(401);
-        echo json_encode(['error' => 'Authorization header missing or invalid']);
-        exit();
-    }
-
-    $jwt = $matches[1];
-    try {
-        $decoded = JWT::decode($jwt, new Key($_ENV['SECRET_KEY'], 'HS256'));
-        return $decoded->sub;
-    } catch (Exception $e) {
-        http_response_code(401);
-        echo json_encode(['error' => 'Invalid token']);
-        exit();
-    }
-}

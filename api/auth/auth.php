@@ -3,29 +3,9 @@ require_once __DIR__ . '/../vendor/autoload.php';
 require_once __DIR__ . '/../db/db.php';
 require_once __DIR__ . '/../models/User.php';
 
-// library to decode/encode JWT
-use Firebase\JWT\JWT;
-use Firebase\JWT\Key;
-
-// CORS setting
-header("Access-Control-Allow-Origin: http://localhost:3000");
-header("Access-Control-Allow-Credentials: true");
-header("Access-Control-Allow-Headers: Content-Type, Authorization");
-header("Access-Control-Allow-Methods: GET, POST, DELETE, OPTIONS");
-
-// To confirm CORS setting
-if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
-    http_response_code(200);
-    exit();
-}
-
-
-// To responseas json format
-header('Content-Type: application/json');
-
-$method_type = $_SERVER['REQUEST_METHOD'];
-$data = json_decode(file_get_contents("php://input"), true) ?? [];
-$action = $_GET['action'] ?? null;
+require_once __DIR__ . '/../utils/api_headers.php';
+require_once __DIR__ . '/../utils/jwt_helper.php';
+require_once __DIR__ . '/../utils/request_helper.php';
 
 $userModel = new User($pdo);
 
