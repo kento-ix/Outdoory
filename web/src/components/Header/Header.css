@@ -57,7 +57,8 @@ header {
 
 .about,
 .mypage,
-.document {
+.document,
+.sources {
     display: block;
     text-decoration: none;
     font-size: 1.1rem;
@@ -73,7 +74,8 @@ header {
 
 .about:hover,
 .mypage:hover,
-.document:hover {
+.document:hover,
+.sources:hover {
     background-color: rgb(239, 236, 236);
 }
 

@@ -1,0 +1,59 @@
+.main-content {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 2rem;
+  font-family: 'Arial', sans-serif;
+  line-height: 1.6;
+  background-color: #fdfdfd;
+  color: #333;
+}
+
+.title {
+  font-size: 2.5rem;
+  margin-bottom: 1rem;
+  text-align: center;
+  color: #2c3e50;
+}
+
+.description {
+  font-size: 1.1rem;
+  margin-bottom: 2rem;
+  text-align: center;
+  color: #555;
+}
+
+.source-section {
+  margin-bottom: 2.5rem;
+}
+
+.section-title {
+  font-size: 1.5rem;
+  margin-bottom: 1rem;
+  color: #34495e;
+  border-bottom: 2px solid #ddd;
+  padding-bottom: 0.5rem;
+}
+
+.source-list {
+  list-style: disc inside;
+  padding-left: 1rem;
+}
+
+.source-list li {
+  margin-bottom: 0.8rem;
+  font-size: 1rem;
+}
+
+.source-list a {
+  color: #2980b9;
+  text-decoration: none;
+}
+
+.source-list a:hover {
+  text-decoration: underline;
+}
+
+.section-text {
+  margin-bottom: 1rem;
+  font-size: 1rem;
+}

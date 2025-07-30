@@ -1,4 +1,5 @@
 import "./Document.css"
+import { Link } from 'react-router-dom';
 
 const Document = () => {
     return(
@@ -10,33 +11,53 @@ const Document = () => {
             </p>
 
             <section className="doc-section">
-            <h2 className="section-title">User Guide</h2>
-            <p className="section-text">
-                Users can browse activity spots, view details, and sign up to create or save favorites.
-                The navigation is mobile-friendly and supports login/logout with modal dialogs.
-            </p>
+                <h2 className="section-title">User Guide</h2>
+                <p className="section-text">
+                    Users can browse activity spots, view details, and sign up to create or save favorites.
+                    The navigation is mobile-friendly and supports login/logout with modal dialogs.
+                </p>
             </section>
 
             <section className="doc-section">
-            <h2 className="section-title">Features Implemented</h2>
-            <ul className="feature-list">
-                <li>Responsive Design (mobile & desktop)</li>
-                <li>User Authentication (login/signup modal)</li>
-                <li>Activity posting and saving</li>
-                <li>Dynamic event list fetched from PHP backend</li>
-            </ul>
+                <h2 className="section-title">Features Implemented</h2>
+                <ul className="feature-list">
+                    <li>Responsive Design (mobile & desktop)</li>
+                    <li>User Authentication (login/signup modal)</li>
+                    <li>Activity posting and saving</li>
+                    <li>Dynamic event list fetched from PHP backend</li>
+                </ul>
             </section>
 
             <section className="doc-section">
-            <h2 className="section-title">Design Choices</h2>
-            <p className="section-text">
-                - Font: Sans-serif fonts with left-aligned paragraphs<br />
-                - Clear contrast between text and background<br />
-                - Headings styled with larger font-size and spacing<br />
-                - Elements grouped logically using cards and containers
-            </p>
+                <h2 className="section-title">Proud Implementations</h2>
+                <p className="section-text">
+                    - We implemented a fully responsive navigation bar that adapts seamlessly between mobile and desktop views. Check it out on the<Link to="/">Home Page</Link>.<br />
+                    - Integrated PHP backend with React frontend for dynamic event listing with real-time updates.<br />
+                    - Modal dialogs for login and registration that improve user experience.
+                </p>
+            </section>
+
+            <section className="doc-section">
+                <h2 className="section-title">Design Choices</h2>
+                <p className="section-text">
+                    - Sans-serif fonts for clean and readable text, with paragraphs left-aligned.<br />
+                    - Strong contrast between text and background for accessibility.<br />
+                    - Headings use larger font sizes and spacing to distinguish from body text.<br />
+                    - Logical grouping of related elements using cards and container divs.<br />
+                    - Consistent alignment ensures a polished layout.
+                </p>
+            </section>
+
+            <section className="doc-section">
+                <h2 className="section-title">Validation Results</h2>
+                <p className="section-text">
+                    Below are screenshots from HTML and CSS validation tools confirming our code quality:
+                </p>
+                <img src="/images/html-validation.png" alt="HTML Validation Result" className="validation-image" />
+                <img src="/images/css-validation.png" alt="CSS Validation Result" className="validation-image" />
             </section>
         </div>
     );
 }
+
 export default Document;

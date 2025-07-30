@@ -99,7 +99,9 @@ const Sidebar = () => {
         <button className="close-icon material-symbols-outlined" onClick={handleClose}>close</button>
         <Link to="/about" className="about" onClick={handleLinkClick}>About</Link>
         <Link to="/document" className="document" onClick={handleLinkClick}>Documentation</Link>
+        <Link to="/sources" className="sources" onClick={handleLinkClick}>Sources</Link>
         <Link to="/mypage" className="mypage" onClick={handleLinkClick}>Mypage</Link>
+
         <button className={`slide-event ${viewMode === "event" ? "active" : ""}`} onClick={handleEventsClick}>
           Events
         </button>

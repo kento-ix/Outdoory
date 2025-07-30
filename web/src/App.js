@@ -6,6 +6,7 @@ import About from "./pages/About/About";
 import Document from "./pages/Document/Document";
 import Mypage from "./pages/Mypage/Mypage";
 import Home from "./pages/Home/Home";
+import Sources from "./pages/Source/Sources";
 
 import ProtectedRoute from "./components/Auth/ProtectedRoute";
 import Event from "./pages/Event/Event";
@@ -29,6 +30,7 @@ function App() {
         <Route path="/" element={<Home />} />
         <Route path="/about" element={<About />} />
         <Route path="/document" element={<Document />} />
+        <Route path="/sources" element={<Sources />} />
 
         <Route element={<ProtectedRoute />}>
           <Route path="/mypage" element={<Mypage />} />

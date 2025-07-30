@@ -33,9 +33,11 @@ const Home = () => {
                 const eventsWithDetails = await Promise.all(
                     data.events.map(async (event) => {
                         try {
-                            const detailResult = await getEventDetail(event.id);
-                            if (detailResult.ok && detailResult.data?.event) {
-                                return detailResult.data.event;
+                            if (currentUser) {
+                                const detailResult = await getEventDetail(event.id);
+                                if (detailResult.ok && detailResult.data?.event) {
+                                    return detailResult.data.event;
+                                }
                             }
                         } catch (error) {
                             console.error(`Failed to fetch details for event ${event.id}:`, error);
@@ -57,6 +59,7 @@ const Home = () => {
         
         setLoading(false);
     };
+
 
     const fetchExperiences = async () => {
         setLoading(true);
