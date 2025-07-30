@@ -1,6 +1,11 @@
 import "./Document.css"
 import { Link } from 'react-router-dom';
 
+import homeValid from "../../assets/validation/Home.png";
+import modalValid from "../../assets/validation/Modal.png";
+
+
+
 const Document = () => {
     return(
         <div className="main-content">
@@ -51,10 +56,10 @@ const Document = () => {
             <section className="doc-section">
                 <h2 className="section-title">Validation Results</h2>
                 <p className="section-text">
-                    Below are screenshots from HTML and CSS validation tools confirming our code quality:
+                    Below are screenshots from CSS validation tools confirming our code quality:
                 </p>
-                <img src="/images/html-validation.png" alt="HTML Validation Result" className="validation-image" />
-                <img src="/images/css-validation.png" alt="CSS Validation Result" className="validation-image" />
+                <img src={homeValid} alt="CSS Validation Result" className="validation-image" />
+                <img src={modalValid} alt="CSS Validation Result" className="validation-image" />
             </section>
         </div>
     );

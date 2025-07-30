@@ -34,6 +34,12 @@ h2.section-title {
     color: var(--text-color);
     word-wrap: break-word;
 }
+
+.validation-image {
+    height: 200px;
+    width: auto;
+}
+
 @media screen and (min-width: 800px){
     .title {
         justify-self: center;
