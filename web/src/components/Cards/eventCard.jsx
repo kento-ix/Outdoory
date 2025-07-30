@@ -8,11 +8,17 @@ const EventCard = ({
     isOwner = false,
     onDelete,
     onJoin,
-    onLeave
+    onLeave,
+    onUpdate
 }) => {
 
     const [imageError, setImageError] = useState(false);
     const [isLoading, setIsLoading] = useState(false);
+    const [isEditing, setIsEditing] = useState(false);
+    const [editData, setEditData] = useState({
+        event_time: '',
+        capacity: ''
+    });
 
     const handleDelete = () => {
         if (window.confirm('Are you sure you want to delete this event?')) {
@@ -38,6 +44,71 @@ const EventCard = ({
                 setIsLoading(false);
             }
         }
+    };
+
+    const handleEditClick = () => {
+        // 編集モード開始時に現在の値をセット
+        const eventDate = new Date(event.event_time);
+        const formattedDateTime = eventDate.toISOString().slice(0, 16); // YYYY-MM-DDTHH:MM format
+        
+        setEditData({
+            event_time: formattedDateTime,
+            capacity: event.capacity || ''
+        });
+        setIsEditing(true);
+    };
+
+    const handleCancelEdit = () => {
+        setIsEditing(false);
+        setEditData({
+            event_time: '',
+            capacity: ''
+        });
+    };
+
+    const handleUpdateSubmit = async () => {
+        // バリデーション
+        if (!editData.event_time) {
+            alert('Event date and time is required');
+            return;
+        }
+
+        if (editData.capacity && editData.capacity <= 0) {
+            alert('Capacity must be greater than 0');
+            return;
+        }
+
+        // 過去の日付チェック
+        const selectedDate = new Date(editData.event_time);
+        if (selectedDate < new Date()) {
+            alert('Event time cannot be in the past');
+            return;
+        }
+
+        setIsLoading(true);
+        try {
+            // datetime-local形式からMySQL形式に変換
+            const mysqlDateTime = editData.event_time.replace('T', ' ') + ':00';
+            
+            const updateData = {
+                event_time: mysqlDateTime,
+                capacity: editData.capacity ? parseInt(editData.capacity) : null
+            };
+
+            await onUpdate(event.id, updateData);
+            setIsEditing(false);
+        } catch (error) {
+            console.error('Update error:', error);
+        } finally {
+            setIsLoading(false);
+        }
+    };
+
+    const handleInputChange = (field, value) => {
+        setEditData(prev => ({
+            ...prev,
+            [field]: value
+        }));
     };
 
     const formatDate = (dateString) => {
@@ -69,14 +140,6 @@ const EventCard = ({
 
     const imageUrl = getImageUrl();
     const isCapacityFull = event.capacity && event.participant_count >= event.capacity;
-
-    console.log('Event participation debug:', {
-        eventId: event.id,
-        isParticipating: event.is_participating,
-        isOwner: isOwner,
-        showParticipation: showParticipation,
-        participantCount: event.participant_count
-    });
 
     return (
         <div className="event-card">
@@ -115,16 +178,44 @@ const EventCard = ({
                     </p>
                 )}
                 
+                {/* 日時表示 - 編集モードでは入力フィールド */}
                 <p className="event-info">
-                    <strong>Date & Time:</strong> {formatDate(event.event_time)}
+                    <strong>Date & Time:</strong> 
+                    {isEditing ? (
+                        <input
+                            type="datetime-local"
+                            value={editData.event_time}
+                            onChange={(e) => handleInputChange('event_time', e.target.value)}
+                            className="edit-input"
+                            min={new Date().toISOString().slice(0, 16)}
+                        />
+                    ) : (
+                        formatDate(event.event_time)
+                    )}
                 </p>
                 
-                {/* 参加者数・定員表示 */}
+                {/* 参加者数・定員表示 - 定員は編集可能 */}
                 <p className="event-info">
                     <strong>Participants:</strong> 
                     {event.participant_count !== undefined ? event.participant_count : 0}
-                    {event.capacity && ` / ${event.capacity}`} people
-                    {isCapacityFull && <span className="capacity-full"> (Full)</span>}
+                    {isEditing ? (
+                        <>
+                            {' / '}
+                            <input
+                                type="number"
+                                value={editData.capacity}
+                                onChange={(e) => handleInputChange('capacity', e.target.value)}
+                                className="edit-input capacity-input"
+                                min="1"
+                                placeholder="No limit"
+                            />
+                        </>
+                    ) : (
+                        <>
+                            {event.capacity && ` / ${event.capacity}`} people
+                            {isCapacityFull && <span className="capacity-full"> (Full)</span>}
+                        </>
+                    )}
                 </p>
                 
                 <p className="event-info">
@@ -134,18 +225,48 @@ const EventCard = ({
                 {/* アクションボタンセクション */}
                 {(showActions || showParticipation) && (
                     <div className="event-actions">
-                        {/* for host */}
+                        {/* オーナー用ボタン */}
                         {showActions && isOwner && (
-                            <button 
-                                className="delete-btn" 
-                                onClick={handleDelete}
-                                disabled={isLoading}
-                            >
-                                Delete Event
-                            </button>
+                            <div className="owner-actions">
+                                {isEditing ? (
+                                    <div className="edit-actions">
+                                        <button 
+                                            className="update-confirm-btn" 
+                                            onClick={handleUpdateSubmit}
+                                            disabled={isLoading}
+                                        >
+                                            {isLoading ? 'Updating...' : 'Update'}
+                                        </button>
+                                        <button 
+                                            className="cancel-btn" 
+                                            onClick={handleCancelEdit}
+                                            disabled={isLoading}
+                                        >
+                                            Cancel
+                                        </button>
+                                    </div>
+                                ) : (
+                                    <div className="normal-actions">
+                                        <button 
+                                            className="edit-btn" 
+                                            onClick={handleEditClick}
+                                            disabled={isLoading}
+                                        >
+                                            Edit Event
+                                        </button>
+                                        <button 
+                                            className="delete-btn" 
+                                            onClick={handleDelete}
+                                            disabled={isLoading}
+                                        >
+                                            Delete Event
+                                        </button>
+                                    </div>
+                                )}
+                            </div>
                         )}
                         
-                        {/* for participant */}
+                        {/* 参加者用ボタン */}
                         {showParticipation && !isOwner && (
                             <>
                                 {event.is_participating ? (

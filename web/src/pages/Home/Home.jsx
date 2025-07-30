@@ -1,3 +1,4 @@
+
 import { useAtom } from 'jotai';
 import { viewModeAtom } from '../../atoms/uiAtoms';
 import { authUserAtom } from '../../atoms/authAtoms';
@@ -92,14 +93,12 @@ const Home = () => {
         setLoading(false);
     };
 
-    // イベント参加処理
     const handleJoin = async (eventId) => {
         try {
             const result = await joinEvent(eventId);
             
             if (result.ok) {
                 console.log('Successfully joined event:', eventId);
-                // イベント一覧を再取得して最新状態に更新
                 fetchEvents();
             } else {
                 console.error('Failed to join event:', result.data?.error);
@@ -111,14 +110,12 @@ const Home = () => {
         }
     };
 
-    // イベント離脱処理
     const handleLeave = async (eventId) => {
         try {
             const result = await leaveEvent(eventId);
             
             if (result.ok) {
                 console.log('Successfully left event:', eventId);
-                // イベント一覧を再取得して最新状態に更新
                 fetchEvents();
             } else {
                 console.error('Failed to leave event:', result.data?.error);
@@ -186,16 +183,19 @@ const Home = () => {
                         </Link>
                     </div>
                     
+                    {/* loading */}
                     {loading && (
                         <div className="loading">Loading experiences...</div>
                     )}
 
+                    {/* if no content found */}
                     {!loading && !error && experiences.length === 0 && (
                         <div className="no-content">
                             <p>No experiences available.</p>
                         </div>
                     )}
                     
+                    {/* if content fuond */}
                     {!loading && !error && experiences.length > 0 && (
                         <div className="content-grid">
                             {experiences.map(experience => (

@@ -159,6 +159,27 @@ export const deleteEvent = async (eventId) => {
     }
 };
 
+// update event
+export async function updateEvent(eventId, updateData) {
+    try {
+        const res = await fetch(`http://localhost/api/routes/events.php?action=update&event_id=${eventId}`, {
+            method: "PUT",
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${localStorage.getItem('token') || ''}`
+            },
+            body: JSON.stringify(updateData)
+        });
+
+        const data = await res.json();
+        
+        return { ok: res.ok, data, status: res.status };
+    } catch (error) {
+        console.error('Update Event Error:', error);
+        return { ok: false, data: { error: error.message }, status: 0 };
+    }
+}
+
 // fix image path
 function normalizeImageUrl(imageUrl) {
     if (!imageUrl) return null;

@@ -2,7 +2,7 @@ import { useAtom } from 'jotai';
 import { viewModeAtom } from '../../atoms/uiAtoms';
 import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import { getUserEvents, deleteEvent } from '../../arc/event/eventServices';
+import { getUserEvents, deleteEvent, updateEvent } from '../../arc/event/eventServices';
 import { getUserExperiences } from '../../arc/experience/experienceServices';
 import { deleteExperience } from '../../arc/experience/experienceServices';
 import EventCard from '../../components/Cards/eventCard';
@@ -105,6 +105,26 @@ const Mypage = () => {
         }
     };
 
+    const handleUpdateEvent = async (eventId, updateData) => {
+        try {
+            console.log('Updating event:', eventId, updateData);
+            
+            const result = await updateEvent(eventId, updateData);
+            
+            if (result.ok) {
+                console.log('Successfully updated event:', eventId);
+                alert('Event updated successfully!');
+                fetchUserEvents();
+            } else {
+                console.error('Failed to update event:', result.data?.error);
+                alert(result.data?.error || 'Failed to update event');
+            }
+        } catch (error) {
+            console.error('Update event exception:', error);
+            alert('An error occurred while updating the event');
+        }
+    };
+
     const handleDeleteExperience = async (experienceId) => {
         if (!window.confirm('Do you want to delete?')) {
             return;
@@ -170,6 +190,7 @@ const Mypage = () => {
                                     showParticipation={false} // not display join event button
                                     isOwner={true} // display host info
                                     onDelete={handleDeleteEvent}
+                                    onUpdate={handleUpdateEvent}
                                 />
                             ))}
                         </div>
@@ -184,10 +205,12 @@ const Mypage = () => {
                         </Link>
                     </div>
                     
+                    {/* loading */}
                     {loading && (
                         <div className="loading">Loading your experiences...</div>
                     )}
                     
+                    {/* if no content is found */}
                     {!loading && !error && experiences.length === 0 && (
                         <div className="no-content">
                             <p>You haven't shared any experiences yet.</p>
@@ -197,6 +220,7 @@ const Mypage = () => {
                         </div>
                     )}
                     
+                    {/* display experience content */}
                     {!loading && !error && experiences.length > 0 && (
                         <div className="content-grid">
                             {experiences.map(experience => (
