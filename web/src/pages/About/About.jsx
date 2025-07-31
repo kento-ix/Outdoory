@@ -1,11 +1,12 @@
 import { Link } from 'react-router-dom';
 import './About.css';
 import findImage from "../../assets/about/find-friend.jpg";
-import joinImage from "../../assets/about/join-event.jpg";
-import shareImage from "../../assets/about/share-experience.jpg";
+import joinImage from "../../assets/about/neom-LiDZooBvzt0-unsplash.jpg";
+import shareImage from "../../assets/about/mimi-thian-vdXMSiX-n6M-unsplash.jpg";
 import swimBoy from "../../assets/about/swimming.png";
 import runGirl from "../../assets/about/running.png";
 import hikeBoy from "../../assets/about/hiking.png";
+
 
 const About = () => {
   return (
