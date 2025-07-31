@@ -163,10 +163,6 @@ const createEvent = async (eventData) => {
 4. Push to the branch (`git push origin feature/AmazingFeature`)
 5. Open a Pull Request
 
-### 📄 License
-
-This project is licensed under the MIT License.
-
 ---
 
 ## Japanese
@@ -327,7 +323,3 @@ const createEvent = async (eventData) => {
 3. 変更をコミット (`git commit -m 'Add some AmazingFeature'`)
 4. ブランチにプッシュ (`git push origin feature/AmazingFeature`)
 5. プルリクエストを開く
-
-### 📄 ライセンス
-
-このプロジェクトはMITライセンスの下でライセンスされています。
