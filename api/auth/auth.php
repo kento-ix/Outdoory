@@ -136,7 +136,11 @@ if ($method_type === 'DELETE' && $action === 'delete_account') {
 }
 
 if ($_GET['action'] === 'pong') {
-    echo json_encode(["status" => "ok", "message" => "pong"]);
+    echo json_encode([
+        "status" => "ok",
+        "message" => "pong",
+        "test" => "auth api test message"
+    ]);
     exit();
 }
 
