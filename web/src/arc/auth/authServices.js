@@ -1,6 +1,7 @@
 import { getApiBaseUrl } from "../config";
 
-console.log("API_BASE_URL:", getApiBaseUrl());
+console.log("API URL:", process.env.REACT_APP_API_URL);
+
 
 // register async
 export async function registerUser({ username, email, password }) {
