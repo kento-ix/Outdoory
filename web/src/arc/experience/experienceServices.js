@@ -1,4 +1,4 @@
-import { API_BASE_URL } from "../config";
+import { getApiBaseUrl } from "../config";
 
 // post experience
 export async function postExperience({ type, content, image }) {
@@ -11,7 +11,7 @@ export async function postExperience({ type, content, image }) {
     }
 
     try {
-        const res = await fetch(`${API_BASE_URL}/api/routes/experiences.php?action=create`, {
+        const res = await fetch(`${getApiBaseUrl()}/api/routes/experiences.php?action=create`, {
             method: "POST",
             body: formData,
             headers: {
@@ -30,7 +30,7 @@ export async function postExperience({ type, content, image }) {
 // get experiences
 export async function getExperiences() {
     try {
-        const res = await fetch(`${API_BASE_URL}/api/routes/experiences.php?action=list`, {
+        const res = await fetch(`${getApiBaseUrl()}/api/routes/experiences.php?action=list`, {
             method: "GET",
             headers: {
                 'Content-Type': 'application/json',
@@ -57,7 +57,7 @@ export async function getExperiences() {
 // get user's own experiences
 export async function getUserExperiences() {
     try {
-        const res = await fetch(`${API_BASE_URL}/api/routes/experiences.php?action=user`, {
+        const res = await fetch(`${getApiBaseUrl()}/api/routes/experiences.php?action=user`, {
             method: "GET",
             headers: {
                 'Content-Type': 'application/json',
@@ -84,7 +84,7 @@ export async function getUserExperiences() {
 // delete experience
 export async function deleteExperience(experienceId) {
     try {
-        const res = await fetch(`${API_BASE_URL}/api/routes/experiences.php?action=delete&id=${experienceId}`, {
+        const res = await fetch(`${getApiBaseUrl()}/api/routes/experiences.php?action=delete&id=${experienceId}`, {
             method: "DELETE",
             headers: {
                 'Content-Type': 'application/json',
@@ -105,5 +105,5 @@ function normalizeImageUrl(imageUrl) {
     if (!imageUrl) return null;
     if (imageUrl.startsWith('http://') || imageUrl.startsWith('https://')) return imageUrl;
 
-    return `${API_BASE_URL}/api/uploads/${imageUrl.replace('/uploads/', '')}`;
+    return `${getApiBaseUrl()}/api/uploads/${imageUrl.replace('/uploads/', '')}`;
 }
