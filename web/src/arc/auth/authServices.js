@@ -1,6 +1,7 @@
 import { getApiBaseUrl } from "../config";
 
-console.log("API URL:", process.env.REACT_APP_API_URL);
+console.log("API URL By function:", getApiBaseUrl());
+console.log("API URL Direct:", process.env.REACT_APP_API_URL);
 
 
 // register async

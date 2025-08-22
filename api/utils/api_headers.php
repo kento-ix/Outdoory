@@ -1,7 +1,7 @@
 <?php
 $allowed_origins = [
     "https://outdoory-five.vercel.app",
-    "http://localhost:3000"
+    "http://localhost:3000",
 ];
 
 $origin = $_SERVER['HTTP_ORIGIN'] ?? '';
