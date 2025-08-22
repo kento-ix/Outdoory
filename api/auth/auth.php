@@ -141,6 +141,7 @@ if ($_GET['action'] === 'pong') {
         "message" => "pong",
         "test" => "auth api test message"
     ]);
+    echo "Test auth php!";
     exit();
 }
 
