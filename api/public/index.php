@@ -1,8 +1,6 @@
 <?php
 require_once __DIR__ . '/../utils/api_headers.php';
 
-echo "Hello this is index.php";
-
 // CORS設定
 $allowed_origins = [
     "https://outdoory-five.vercel.app",
