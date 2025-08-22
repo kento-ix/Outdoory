@@ -1,9 +1,10 @@
 <?php
+require_once __DIR__ . '/../utils/api_headers.php';
+
 require_once __DIR__ . '/../vendor/autoload.php';
 require_once __DIR__ . '/../db/db.php';
 require_once __DIR__ . '/../models/User.php';
 
-require_once __DIR__ . '/../utils/api_headers.php';
 require_once __DIR__ . '/../utils/jwt_helper.php';
 require_once __DIR__ . '/../utils/request_helper.php';
 
