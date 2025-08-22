@@ -8,7 +8,7 @@ require_once __DIR__ . '/../models/User.php';
 require_once __DIR__ . '/../utils/jwt_helper.php';
 require_once __DIR__ . '/../utils/request_helper.php';
 
-// POST/DELETE データ取得
+// POST/DELETE
 $method_type = $_SERVER['REQUEST_METHOD'];
 $data = json_decode(file_get_contents('php://input'), true) ?? [];
 
@@ -18,7 +18,17 @@ $action = $_GET['action'] ?? '';
 // User モデル
 $userModel = new User($pdo);
 
-// --- POST処理 ---
+// --- GET: pong test ---
+if ($action === 'pong') {
+    echo json_encode([
+        "status" => "ok",
+        "message" => "pong",
+        "test" => "auth api test message"
+    ]);
+    exit();
+}
+
+// --- POST ---
 if ($method_type === 'POST') {
 
     // -------------------
@@ -107,7 +117,7 @@ if ($method_type === 'POST') {
     }
 }
 
-// --- DELETE処理 ---
+// --- DELETE ---
 if ($method_type === 'DELETE' && $action === 'delete_account') {
     $authHeader = $_SERVER['HTTP_AUTHORIZATION']
         ?? $_SERVER['REDIRECT_HTTP_AUTHORIZATION']
@@ -135,24 +145,14 @@ if ($method_type === 'DELETE' && $action === 'delete_account') {
     exit;
 }
 
-// --- GET処理: pongテスト ---
-if ($action === 'pong') {
-    echo json_encode([
-        "status" => "ok",
-        "message" => "pong",
-        "test" => "auth api test message"
-    ]);
-    exit();
-}
-
-// --- デフォルト: メソッド未対応 ---
+// --- Default ---
 http_response_code(405);
 echo json_encode(['error' => 'Method not allowed']);
 exit();
 
 
 // -------------------
-// バリデーション関数
+// validation functions
 // -------------------
 function validate_registration($data) {
     $messages = ['username'=>'','email'=>'','password'=>''];

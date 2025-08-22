@@ -1,30 +1,23 @@
 <?php
 require_once __DIR__ . '/../vendor/autoload.php';
 
-// .env があれば読み込む
 if (file_exists(__DIR__ . '/../.env')) {
     $dotenv = Dotenv\Dotenv::createImmutable(__DIR__ . '/../');
     $dotenv->load();
 }
 
-// 環境判定
-$appEnv = $_ENV['APP_ENV'] ?? 'local';
-$isLocal = ($appEnv === 'local');
+// 共通設定（ユーザー名、パスワード、DB名は同じ）
+$user = $_ENV['DB_USER'] ?? 'root';
+$pass = $_ENV['DB_PASSWORD'] ?? '';
+$db   = $_ENV['DB_NAME'] ?? 'mydb';
 
-if ($isLocal) {
-    // ローカル接続
-    $host = $_ENV['DB_HOST_LOCAL'] ?? '127.0.0.1';
-    $port = $_ENV['DB_PORT_LOCAL'] ?? '3306';
-    $user = $_ENV['DB_USER_LOCAL'] ?? 'root';
-    $pass = $_ENV['DB_PASSWORD_LOCAL'] ?? '';
-    $db   = $_ENV['DB_NAME'] ?? 'mydb';
+// 環境ごとのホストとポート
+if (($_ENV['APP_ENV'] ?? 'local') === 'local') {
+    $host = $_ENV['DB_HOST_LOCAL'];
+    $port = $_ENV['DB_PORT_LOCAL'];
 } else {
-    // 本番接続 (Railway 内 Private Network)
-    $host = $_ENV['DB_HOST'] ?? '127.0.0.1';
-    $port = $_ENV['DB_PORT'] ?? '3306';
-    $user = $_ENV['DB_USER'] ?? 'root';
-    $pass = $_ENV['DB_PASSWORD'] ?? '';
-    $db   = $_ENV['DB_NAME'] ?? 'mydb';
+    $host = $_ENV['DB_HOST_PROD'];
+    $port = $_ENV['DB_PORT_PROD'];
 }
 
 try {
@@ -34,6 +27,7 @@ try {
         $pass,
         [PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION]
     );
+    // echo "DB connection successful! Host: $host, DB: $db\n";
 } catch (PDOException $e) {
-    die("DB connection failed: " . $e->getMessage());
+    die("DB connection failed: " . $e->getMessage() . "\n");
 }
