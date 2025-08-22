@@ -1,4 +1,6 @@
-import { API_BASE_URL } from "../config";
+import { API_BASE_URL } from "../config"
+
+console.log("API_BASE_URL:", API_BASE_URL);
 
 // register async
 export async function registerUser({ username, email, password }) {
