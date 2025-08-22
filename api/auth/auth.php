@@ -134,6 +134,11 @@ if ($method_type === 'DELETE' && $action === 'delete_account') {
     exit;
 }
 
+if ($_GET['action'] === 'pong') {
+    echo json_encode(["status" => "ok", "message" => "pong"]);
+    exit();
+}
+
 http_response_code(405);
 echo json_encode(['error' => 'Method not allowed']);
 
