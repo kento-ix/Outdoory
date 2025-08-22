@@ -1,6 +1,8 @@
+import { API_BASE_URL } from "../config";
+
 // register async
 export async function registerUser({ username, email, password }) {
-  const res = await fetch("http://localhost/api/auth/auth.php?action=register", {
+  const res = await fetch(`${API_BASE_URL}/api/auth/auth.php?action=register`, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({ username, email, password }),
@@ -10,10 +12,9 @@ export async function registerUser({ username, email, password }) {
   return { ok: res.ok, data };
 }
 
-
 // login async
 export async function loginUser({ username, password }) {
-  const res = await fetch("http://localhost/api/auth/auth.php?action=login", {
+  const res = await fetch(`${API_BASE_URL}/api/auth/auth.php?action=login`, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({ username, password }),
@@ -26,12 +27,10 @@ export async function loginUser({ username, password }) {
 // logout
 export async function logoutUser() {
   try {
-    const response = await fetch("http://localhost/api/auth/auth.php?action=logout", {
+    const response = await fetch(`${API_BASE_URL}/api/auth/auth.php?action=logout`, {
       method: "POST",
       credentials: "include",
-      headers: {
-        "Content-Type": "application/json",
-      },
+      headers: { "Content-Type": "application/json" },
     });
     const data = await response.json();
     return { ok: response.ok, data };
