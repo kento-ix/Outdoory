@@ -7,6 +7,7 @@ import Document from "./pages/Document/Document";
 import Mypage from "./pages/Mypage/Mypage";
 import Home from "./pages/Home/Home";
 import Sources from "./pages/Source/Sources";
+import Test from "./pages/test";
 
 import ProtectedRoute from "./components/Auth/ProtectedRoute";
 import Event from "./pages/Event/Event";
@@ -37,6 +38,8 @@ function App() {
           <Route path="/event" element={<Event />} />
           <Route path="/experience" element={<Experience />} />
         </Route>
+
+        <Route path="/test" element={<Test />} />
       </Routes>
     </div>
   );
