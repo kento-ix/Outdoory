@@ -9,6 +9,7 @@ if (file_exists(__DIR__ . '/../.env')) {
 $appEnv = $_ENV['APP_ENV'] ?? 'local';
 $isLocal = ($appEnv === 'local');
 
+// lcal
 if ($isLocal) {
     $host = $_ENV['DB_HOST_LOCAL'] ?? '127.0.0.1';
     $port = $_ENV['DB_PORT_LOCAL'] ?? '3306';
@@ -16,11 +17,11 @@ if ($isLocal) {
     $pass = $_ENV['DB_PASSWORD_LOCAL'] ?? '';
     $db   = $_ENV['DB_NAME'] ?? 'mydb';
 } else {
-    $host = $_ENV['MYSQLHOST'] ?? $_ENV['DB_HOST'] ?? '127.0.0.1';
-    $port = $_ENV['MYSQLPORT'] ?? $_ENV['DB_PORT'] ?? '3306';
-    $user = $_ENV['MYSQLUSER'] ?? $_ENV['DB_USER'] ?? 'root';
-    $pass = $_ENV['MYSQLPASSWORD'] ?? $_ENV['DB_PASSWORD'] ?? '';
-    $db   = $_ENV['MYSQLDATABASE'] ?? $_ENV['DB_NAME'] ?? 'mydb';
+    $host = $_ENV['DB_HOST'] ?? '127.0.0.1';
+    $port = $_ENV['DB_PORT'] ?? '3306';
+    $user = $_ENV['DB_USER'] ?? 'root';
+    $pass = $_ENV['DB_PASSWORD'] ?? '';
+    $db   = $_ENV['DB_NAME'] ?? 'mydb';
 }
 
 try {
