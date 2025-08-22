@@ -13,11 +13,11 @@ $db   = $_ENV['DB_NAME'] ?? 'mydb';
 
 // 環境ごとのホストとポート
 if (($_ENV['APP_ENV'] ?? 'local') === 'local') {
-    $host = $_ENV['DB_HOST_LOCAL'];
-    $port = $_ENV['DB_PORT_LOCAL'];
+    $host = $_ENV['DB_HOST'];
+    $port = $_ENV['DB_PORT'];
 } else {
-    $host = $_ENV['DB_HOST_PROD'];
-    $port = $_ENV['DB_PORT_PROD'];
+    $host = $_ENV['MYSQLHOST'];
+    $port = $_ENV['MYSQLPORT'];
 }
 
 try {
