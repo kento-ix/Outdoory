@@ -1,19 +1,27 @@
 <?php
 require_once __DIR__ . '/../vendor/autoload.php';
 
-$dotenv = Dotenv\Dotenv::createImmutable(__DIR__ . '/../');
-$dotenv->load();
+if (file_exists(__DIR__ . '/../.env')) {
+    $dotenv = Dotenv\Dotenv::createImmutable(__DIR__ . '/../');
+    $dotenv->load();
+}
 
-// 環境判定
 $appEnv = $_ENV['APP_ENV'] ?? 'local';
 $isLocal = ($appEnv === 'local');
 
-// 接続情報を切り替え
-$host = $isLocal ? $_ENV['DB_HOST_LOCAL'] : $_ENV['DB_HOST_PROD'];
-$port = $isLocal ? $_ENV['DB_PORT_LOCAL'] : $_ENV['DB_PORT_PROD'];
-$user = $isLocal ? $_ENV['DB_USER_LOCAL'] : $_ENV['DB_USER_PROD'];
-$pass = $isLocal ? $_ENV['DB_PASSWORD_LOCAL'] : $_ENV['DB_PASSWORD_PROD'];
-$db   = $_ENV['DB_NAME'];
+if ($isLocal) {
+    $host = $_ENV['DB_HOST_LOCAL'] ?? '127.0.0.1';
+    $port = $_ENV['DB_PORT_LOCAL'] ?? '3306';
+    $user = $_ENV['DB_USER_LOCAL'] ?? 'root';
+    $pass = $_ENV['DB_PASSWORD_LOCAL'] ?? '';
+    $db   = $_ENV['DB_NAME'] ?? 'mydb';
+} else {
+    $host = $_ENV['MYSQLHOST'] ?? $_ENV['DB_HOST'] ?? '127.0.0.1';
+    $port = $_ENV['MYSQLPORT'] ?? $_ENV['DB_PORT'] ?? '3306';
+    $user = $_ENV['MYSQLUSER'] ?? $_ENV['DB_USER'] ?? 'root';
+    $pass = $_ENV['MYSQLPASSWORD'] ?? $_ENV['DB_PASSWORD'] ?? '';
+    $db   = $_ENV['MYSQLDATABASE'] ?? $_ENV['DB_NAME'] ?? 'mydb';
+}
 
 try {
     $pdo = new PDO(
@@ -22,7 +30,7 @@ try {
         $pass,
         [PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION]
     );
-    echo "DB connection success";
+    
 } catch (PDOException $e) {
     die("DB connection failed: " . $e->getMessage());
 }
