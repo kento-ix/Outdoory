@@ -1,19 +1,14 @@
 <?php
-if (file_exists(__DIR__ . '/../api/.env')) {
-    $dotenv = Dotenv\Dotenv::createImmutable(__DIR__ . '/../api');
-    $dotenv->load();
-}
+// if (file_exists(__DIR__ . '/../api/.env')) {
+//     $dotenv = Dotenv\Dotenv::createImmutable(__DIR__ . '/../api');
+//     $dotenv->load();
+// }
 
-$user = $_ENV['MYSQLUSER'] ?? getenv('MYSQLUSER');
-$pass = $_ENV['MYSQLPASSWORD'] ?? getenv('MYSQLPASSWORD');
-$db   = $_ENV['MYSQLDATABASE'] ?? getenv('MYSQLDATABASE');
-$host = $_ENV['MYSQLHOST'] ?? getenv('MYSQLHOST');
-$port = $_ENV['MYSQLPORT'] ?? getenv('MYSQLPORT');
-
-var_dump($_ENV);
-var_dump($_SERVER);
-var_dump(getenv());
-
+$host = $_ENV['DB_HOST'];
+$port = $_ENV['DB_PORT'];
+$user = $_ENV['DB_USER'];
+$pass = $_ENV['DB_PASSWORD'];
+$db   = $_ENV['DB_NAME'];
 
 var_dump($user, $pass, $db, $host, $port);
 exit;
