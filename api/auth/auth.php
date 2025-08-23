@@ -13,7 +13,7 @@ $method_type = $_SERVER['REQUEST_METHOD'];
 $data = json_decode(file_get_contents('php://input'), true) ?? [];
 
 // GET パラメータ
-$action = $_GET['action'] ?? '';
+$action = $_GET['action'];
 
 // User モデル
 $userModel = new User($pdo);

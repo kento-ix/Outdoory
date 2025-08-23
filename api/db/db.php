@@ -1,24 +1,10 @@
 <?php
-require_once __DIR__ . '/../vendor/autoload.php';
+$user = getenv('MYSQLUSER');
+$pass = getenv('MYSQLPASSWORD');
+$db   = getenv('MYSQLDATABASE');
 
-if (file_exists(__DIR__ . '/../.env')) {
-    $dotenv = Dotenv\Dotenv::createImmutable(__DIR__ . '/../');
-    $dotenv->load();
-}
-
-// 共通設定（ユーザー名、パスワード、DB名は同じ）
-$user = $_ENV['DB_USER'] ?? 'root';
-$pass = $_ENV['DB_PASSWORD'] ?? '';
-$db   = $_ENV['DB_NAME'] ?? 'mydb';
-
-// 環境ごとのホストとポート
-if (($_ENV['APP_ENV'] ?? 'local') === 'local') {
-    $host = $_ENV['DB_HOST'];
-    $port = $_ENV['DB_PORT'];
-} else {
-    $host = $_ENV['MYSQLHOST'];
-    $port = $_ENV['MYSQLPORT'];
-}
+$host = getenv('MYSQLHOST');
+$port = getenv('MYSQLPORT');
 
 try {
     $pdo = new PDO(
