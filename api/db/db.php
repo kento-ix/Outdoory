@@ -10,8 +10,8 @@ $user = $_ENV['DB_USER'];
 $pass = $_ENV['DB_PASSWORD'];
 $db   = $_ENV['DB_NAME'];
 
-var_dump($user, $pass, $db, $host, $port);
-exit;
+// var_dump($user, $pass, $db, $host, $port);
+// exit;
 
 try {
     $pdo = new PDO(
