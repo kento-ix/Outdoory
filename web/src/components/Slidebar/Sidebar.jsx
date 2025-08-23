@@ -115,7 +115,7 @@ const Sidebar = () => {
         ) : (
           <>
             <button className="login-button" onClick={handleLogin}>LogIn</button>
-            <button className="signin-button" onClick={handleSignin}>SignIn</button>
+            <button className="signin-button" onClick={handleSignin}>Register</button>
           </>
         )}
       </div>

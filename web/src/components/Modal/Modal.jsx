@@ -148,7 +148,7 @@ function Modal() {
                       setModalMode("signin");
                     }}
                   >
-                    Signin
+                    Register
                   </button>
                 </p>
               </>
@@ -156,7 +156,7 @@ function Modal() {
           </div>
         ) : (
           <div className="signin-modal">
-            <h2>Signin</h2>
+            <h2>Register</h2>
             <button
               className="close-icon material-symbols-outlined"
               onClick={handleClose}
