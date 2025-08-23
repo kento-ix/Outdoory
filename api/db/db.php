@@ -1,8 +1,10 @@
 <?php
 
 require_once __DIR__ . '/../vendor/autoload.php';
-$dotenv = Dotenv\Dotenv::createImmutable(__DIR__ . '/../');
-$dotenv->load();
+$dotenvPath = __DIR__ . '/../.env';
+var_dump($dotenvPath, file_exists($dotenvPath));
+exit;
+
 
 $user = $_ENV['MYSQLUSER'];
 $pass = $_ENV['MYSQLPASSWORD'];
