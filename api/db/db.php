@@ -1,6 +1,6 @@
 <?php
 
-var_dump(getenv('MYSQLHOST'), getenv('MYSQLPORT'));
+var_dump($_SERVER['MYSQLHOST'], $_SERVER['MYSQLPORT']);
 exit;
 
 $user = getenv('MYSQLUSER');
