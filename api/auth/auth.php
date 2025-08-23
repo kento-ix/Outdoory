@@ -16,6 +16,8 @@ $action = $_GET['action'];
 
 $userModel = new User($pdo);
 
+var_dump($action); exit;
+
 // --- GET: pong test ---
 if ($action === 'pong') {
     echo json_encode([
