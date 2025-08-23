@@ -1,7 +1,7 @@
 <?php
 
 require_once __DIR__ . '/../vendor/autoload.php';
-$dotenvPath = __DIR__ . '/../.env';
+$dotenvPath = __DIR__ . '/../api/.env';
 var_dump($dotenvPath, file_exists($dotenvPath));
 exit;
 
