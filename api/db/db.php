@@ -1,10 +1,16 @@
 <?php
+
+var_dump(getenv('MYSQLHOST'), getenv('MYSQLPORT'));
+exit;
+
 $user = getenv('MYSQLUSER');
 $pass = getenv('MYSQLPASSWORD');
 $db   = getenv('MYSQLDATABASE');
 
 $host = getenv('MYSQLHOST');
 $port = getenv('MYSQLPORT');
+
+
 
 try {
     $pdo = new PDO(
