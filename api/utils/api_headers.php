@@ -3,7 +3,7 @@ $allowed_origins = [
     "https://outdoory-five.vercel.app",
 ];
 
-$origin = $_SERVER['HTTP_ORIGIN'];
+$origin = $_SERVER['HTTP_ORIGIN'] ?? '';
 
 if (in_array($origin, $allowed_origins)) {
     header("Access-Control-Allow-Origin: $origin");

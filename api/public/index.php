@@ -3,7 +3,7 @@ require_once __DIR__ . '/../utils/api_headers.php';
 
 $uri = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
 $path = trim(str_replace('/index.php', '', $uri), '/');
-$action = $_GET['action'];
+$action = $_GET['action'] ?? null;
 $method = $_SERVER['REQUEST_METHOD'];
 
 switch (true) {
