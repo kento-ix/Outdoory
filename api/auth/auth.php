@@ -84,18 +84,22 @@ if ($method_type === 'POST') {
             'iat' => time(),
             'exp' => time() + (60 * 60 * 24)
         ];
-        $token = JWT::encode($payload, $_ENV['SECRET_KEY'], 'HS256');
-
-        echo json_encode([
-            'message' => 'Login successful',
-            'token' => $token,
-            'user' => [
-                'id' => $user['id'],
-                'username' => $user['username'],
-                'email' => $user['email']
-            ]
-        ]);
-        exit;
+        
+        try {
+            $token = JWT::encode($payload, $_ENV['SECRET_KEY'] ?? '', 'HS256');
+            echo json_encode([
+                'message' => 'Login successful',
+                'token' => $token,
+                'user' => [
+                    'id' => $user['id'],
+                    'username' => $user['username'],
+                    'email' => $user['email']
+                ]
+            ]);
+        } catch (Exception $e) {
+            http_response_code(500);
+            echo json_encode(['error' => 'Token generation failed']);
+        }
 
     // -------------------
     // logout
