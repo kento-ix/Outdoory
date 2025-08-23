@@ -3,7 +3,7 @@ import { getApiBaseUrl } from "../config";
 // join event async
 export async function joinEvent(eventId) {
     try {
-        const res = await fetch(`${getApiBaseUrl()}/api/routes/eventParticipants.php?action=join`, {
+        const res = await fetch(`${getApiBaseUrl()}/routes?action=join`, {
             method: "POST",
             headers: {
                 'Content-Type': 'application/json',
@@ -23,7 +23,7 @@ export async function joinEvent(eventId) {
 // cancel event async
 export async function leaveEvent(eventId) {
     try {
-        const res = await fetch(`${getApiBaseUrl()}/api/routes/eventParticipants.php?action=leave&event_id=${eventId}`, {
+        const res = await fetch(`${getApiBaseUrl()}/routes?action=leave&event_id=${eventId}`, {
             method: "DELETE",
             headers: {
                 'Content-Type': 'application/json',
@@ -42,7 +42,7 @@ export async function leaveEvent(eventId) {
 // get event participant async
 export async function getEventParticipants(eventId) {
     try {
-        const res = await fetch(`${getApiBaseUrl()}/api/routes/eventParticipants.php?action=participants&event_id=${eventId}`, {
+        const res = await fetch(`${getApiBaseUrl()}/routes?action=participants&event_id=${eventId}`, {
             method: "GET",
             headers: {
                 'Content-Type': 'application/json',
@@ -61,7 +61,7 @@ export async function getEventParticipants(eventId) {
 // check participation status async
 export async function checkParticipationStatus(eventId) {
     try {
-        const res = await fetch(`${getApiBaseUrl()}/api/routes/eventParticipants.php?action=check&event_id=${eventId}`, {
+        const res = await fetch(`${getApiBaseUrl()}/routes?action=check&event_id=${eventId}`, {
             method: "GET",
             headers: {
                 'Content-Type': 'application/json',
@@ -80,7 +80,7 @@ export async function checkParticipationStatus(eventId) {
 // get a list of join user async
 export async function getMyParticipatingEvents() {
     try {
-        const res = await fetch(`${getApiBaseUrl()}/api/routes/eventParticipants.php?action=my_events`, {
+        const res = await fetch(`${getApiBaseUrl()}/routes?action=my_events`, {
             method: "GET",
             headers: {
                 'Content-Type': 'application/json',
@@ -118,7 +118,7 @@ export async function getMyParticipatingEvents() {
 // get event detail async
 export async function getEventDetail(eventId) {
     try {
-        const res = await fetch(`${getApiBaseUrl()}/api/routes/eventParticipants.php?action=event_detail&event_id=${eventId}`, {
+        const res = await fetch(`${getApiBaseUrl()}/routes?action=event_detail&event_id=${eventId}`, {
             method: "GET",
             headers: {
                 'Content-Type': 'application/json',

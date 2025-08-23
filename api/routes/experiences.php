@@ -11,7 +11,7 @@ require_once __DIR__ . '/../utils/request_helper.php';
 
 $experienceModel = new Experience($pdo);
 
-if ($method_type === 'POST' && $action === 'create') {
+if ($method_type === 'POST' && $action === 'createExp') {
     $userId = getUserIdFromToken();
 
     $type = $_POST['type'] ?? '';
@@ -57,13 +57,13 @@ if ($method_type === 'POST' && $action === 'create') {
     exit();
 }
 
-if ($method_type === 'GET' && $action === 'list') {
+if ($method_type === 'GET' && $action === 'listExp') {
     $experiences = $experienceModel->getAll();
     echo json_encode(['experiences' => $experiences]);
     exit();
 }
 
-if ($method_type === 'GET' && $action === 'user') {
+if ($method_type === 'GET' && $action === 'userExp') {
     $userId = getUserIdFromToken();
     
     $experiences = $experienceModel->getByUserId($userId);
@@ -71,7 +71,7 @@ if ($method_type === 'GET' && $action === 'user') {
     exit();
 }
 
-if ($method_type === 'DELETE' && $action === 'delete') {
+if ($method_type === 'DELETE' && $action === 'deleteExp') {
     $userId = getUserIdFromToken();
     $experienceId = $_GET['id'] ?? null;
 

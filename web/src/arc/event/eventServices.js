@@ -15,7 +15,7 @@ export async function postEvent({ title, location, event_time, capacity, images 
     }
 
     try {
-        const res = await fetch(`${getApiBaseUrl()}/api/routes/events.php?action=create`, {
+        const res = await fetch(`${getApiBaseUrl()}/routes?action=createEvent`, {
             method: "POST",
             body: formData,
             headers: {
@@ -34,7 +34,7 @@ export async function postEvent({ title, location, event_time, capacity, images 
 // get events async
 export async function getEvents() {
     try {
-        const res = await fetch(`${getApiBaseUrl()}/api/routes/events.php?action=list`, {
+        const res = await fetch(`${getApiBaseUrl()}/routes?action=listEvent`, {
             method: "GET",
             headers: {
                 'Content-Type': 'application/json',
@@ -68,7 +68,7 @@ export async function getEvents() {
 // get user's own events async
 export async function getUserEvents() {
     try {
-        const res = await fetch(`${getApiBaseUrl()}/api/routes/events.php?action=user`, {
+        const res = await fetch(`${getApiBaseUrl()}/routes?action=userEvent`, {
             method: "GET",
             headers: {
                 'Content-Type': 'application/json',
@@ -102,7 +102,7 @@ export async function getUserEvents() {
 // get event info async
 export async function getEvent(eventId) {
     try {
-        const res = await fetch(`${getApiBaseUrl()}/api/routes/events.php?action=get&id=${eventId}`, {
+        const res = await fetch(`${getApiBaseUrl()}/routes?action=get&id=${eventId}`, {
             method: "GET",
             headers: {
                 'Content-Type': 'application/json',
@@ -123,7 +123,7 @@ export async function getEvent(eventId) {
 export const deleteEvent = async (eventId) => {
     try {
         const token = localStorage.getItem('token');
-        const response = await fetch(`${getApiBaseUrl()}/api/routes/events.php?action=delete&event_id=${eventId}`, {
+        const response = await fetch(`${getApiBaseUrl()}/routes?action=deleteEvent&event_id=${eventId}`, {
             method: 'DELETE',
             headers: {
                 'Authorization': `Bearer ${token}`,
@@ -142,7 +142,7 @@ export const deleteEvent = async (eventId) => {
 // update event
 export async function updateEvent(eventId, updateData) {
     try {
-        const res = await fetch(`${getApiBaseUrl()}/api/routes/events.php?action=update&event_id=${eventId}`, {
+        const res = await fetch(`${getApiBaseUrl()}/routes?action=update&event_id=${eventId}`, {
             method: "PUT",
             headers: {
                 'Content-Type': 'application/json',

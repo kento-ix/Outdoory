@@ -13,7 +13,7 @@ $eventModel = new Event($pdo);
 
 
 // post event
-if ($method_type === 'POST' && $action === 'create') {
+if ($method_type === 'POST' && $action === 'createEvent') {
     $userId = getUserIdFromToken();
 
     $title = $_POST['title'] ?? '';
@@ -68,14 +68,14 @@ if ($method_type === 'POST' && $action === 'create') {
 
 
 // get all event list
-if ($method_type === 'GET' && $action === 'list') {
+if ($method_type === 'GET' && $action === 'listEvent') {
     $events = $eventModel->getAll();
     echo json_encode(['events' => $events]);
     exit();
 }
 
 // get event by user
-if ($method_type === 'GET' && $action === 'user') {
+if ($method_type === 'GET' && $action === 'userEvent') {
     $userId = getUserIdFromToken();
     
     $events = $eventModel->getByUserId($userId);
@@ -84,7 +84,7 @@ if ($method_type === 'GET' && $action === 'user') {
 }
 
 // delete event
-if ($method_type === 'DELETE' && $action === 'delete') {
+if ($method_type === 'DELETE' && $action === 'deleteEvent') {
     $userId = getUserIdFromToken();
     $eventId = $_GET['event_id'] ?? null;
 

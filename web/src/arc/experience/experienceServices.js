@@ -11,7 +11,7 @@ export async function postExperience({ type, content, image }) {
     }
 
     try {
-        const res = await fetch(`${getApiBaseUrl()}/api/routes/experiences.php?action=create`, {
+        const res = await fetch(`${getApiBaseUrl()}/routes?action=createExp`, {
             method: "POST",
             body: formData,
             headers: {
@@ -30,7 +30,7 @@ export async function postExperience({ type, content, image }) {
 // get experiences
 export async function getExperiences() {
     try {
-        const res = await fetch(`${getApiBaseUrl()}/api/routes/experiences.php?action=list`, {
+        const res = await fetch(`${getApiBaseUrl()}/routes?action=listExp`, {
             method: "GET",
             headers: {
                 'Content-Type': 'application/json',
@@ -57,7 +57,7 @@ export async function getExperiences() {
 // get user's own experiences
 export async function getUserExperiences() {
     try {
-        const res = await fetch(`${getApiBaseUrl()}/api/routes/experiences.php?action=user`, {
+        const res = await fetch(`${getApiBaseUrl()}/routes?action=userExp`, {
             method: "GET",
             headers: {
                 'Content-Type': 'application/json',
@@ -84,7 +84,7 @@ export async function getUserExperiences() {
 // delete experience
 export async function deleteExperience(experienceId) {
     try {
-        const res = await fetch(`${getApiBaseUrl()}/api/routes/experiences.php?action=delete&id=${experienceId}`, {
+        const res = await fetch(`${getApiBaseUrl()}/routes?action=deleteExp&id=${experienceId}`, {
             method: "DELETE",
             headers: {
                 'Content-Type': 'application/json',

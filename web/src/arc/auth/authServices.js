@@ -6,7 +6,7 @@ console.log("API URL Direct:", process.env.REACT_APP_API_URL);
 
 // register async
 export async function registerUser({ username, email, password }) {
-  const res = await fetch(`${getApiBaseUrl()}/api/auth/auth.php?action=register`, {
+  const res = await fetch(`${getApiBaseUrl()}/auth?action=register`, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({ username, email, password }),
@@ -18,7 +18,7 @@ export async function registerUser({ username, email, password }) {
 
 // login async
 export async function loginUser({ username, password }) {
-  const res = await fetch(`${getApiBaseUrl()}/api/auth/auth.php?action=login`, {
+  const res = await fetch(`${getApiBaseUrl()}/auth?action=login`, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({ username, password }),
@@ -31,7 +31,7 @@ export async function loginUser({ username, password }) {
 // logout
 export async function logoutUser() {
   try {
-    const response = await fetch(`${getApiBaseUrl()}/api/auth/auth.php?action=logout`, {
+    const response = await fetch(`${getApiBaseUrl()}/auth?action=logout`, {
       method: "POST",
       credentials: "include",
       headers: { "Content-Type": "application/json" },
