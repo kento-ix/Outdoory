@@ -1,16 +1,17 @@
 <?php
 
-var_dump($_SERVER['MYSQLHOST'], $_SERVER['MYSQLPORT']);
+require_once __DIR__ . '/../vendor/autoload.php';
+$dotenv = Dotenv\Dotenv::createImmutable(__DIR__ . '/../');
+$dotenv->load();
+
+$user = $_ENV['MYSQLUSER'];
+$pass = $_ENV['MYSQLPASSWORD'];
+$db   = $_ENV['MYSQLDATABASE'];
+$host = $_ENV['MYSQLHOST'];
+$port = $_ENV['MYSQLPORT'];
+
+var_dump($user, $pass, $db, $host, $port);
 exit;
-
-$user = getenv('MYSQLUSER');
-$pass = getenv('MYSQLPASSWORD');
-$db   = getenv('MYSQLDATABASE');
-
-$host = getenv('MYSQLHOST');
-$port = getenv('MYSQLPORT');
-
-
 
 try {
     $pdo = new PDO(
