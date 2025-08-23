@@ -1,18 +1,16 @@
 <?php
+if (file_exists(__DIR__ . '/../api/.env')) {
+    $dotenv = Dotenv\Dotenv::createImmutable(__DIR__ . '/../api');
+    $dotenv->load();
+}
 
-require_once __DIR__ . '/../vendor/autoload.php';
-$dotenv = Dotenv\Dotenv::createImmutable(__DIR__ . '/../api');
-$dotenv->load();
+$user = $_ENV['MYSQLUSER'] ?? getenv('MYSQLUSER');
+$pass = $_ENV['MYSQLPASSWORD'] ?? getenv('MYSQLPASSWORD');
+$db   = $_ENV['MYSQLDATABASE'] ?? getenv('MYSQLDATABASE');
+$host = $_ENV['MYSQLHOST'] ?? getenv('MYSQLHOST');
+$port = $_ENV['MYSQLPORT'] ?? getenv('MYSQLPORT');
 
 
-// .env に書かれた環境変数を読み取る
-$user = $_ENV['MYSQLUSER'] ?? null;
-$pass = $_ENV['MYSQLPASSWORD'] ?? null;
-$db   = $_ENV['MYSQLDATABASE'] ?? null;
-$host = $_ENV['MYSQLHOST'] ?? null;
-$port = $_ENV['MYSQLPORT'] ?? null;
-
-var_dump($user, $pass, $db, $host, $port);
 var_dump($user, $pass, $db, $host, $port);
 exit;
 
