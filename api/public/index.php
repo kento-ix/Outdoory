@@ -6,7 +6,7 @@ $path = trim(str_replace('/index.php', '', $uri), '/');
 $action = $_GET['action'] ?? null;
 $method = $_SERVER['REQUEST_METHOD'];
 
-var_dump($uri, $path); exit;
+// var_dump($uri, $path); exit;
 switch (true) {
     case str_starts_with($path, 'auth'):
         require_once __DIR__ . '/../auth/auth.php';
