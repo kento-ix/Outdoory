@@ -10,6 +10,10 @@ $db   = $_ENV['MYSQLDATABASE'] ?? getenv('MYSQLDATABASE');
 $host = $_ENV['MYSQLHOST'] ?? getenv('MYSQLHOST');
 $port = $_ENV['MYSQLPORT'] ?? getenv('MYSQLPORT');
 
+var_dump($_ENV);
+var_dump($_SERVER);
+var_dump(getenv());
+
 
 var_dump($user, $pass, $db, $host, $port);
 exit;
