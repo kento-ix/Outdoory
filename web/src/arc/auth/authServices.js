@@ -24,6 +24,12 @@ export async function loginUser({ username, password }) {
     body: JSON.stringify({ username, password }),
   });
 
+  if (!res.ok) {
+    const text = await res.text();
+    console.error("Server error:", text);
+    return;
+  } 
+
   const data = await res.json();
   return { ok: res.ok, data };
 }
