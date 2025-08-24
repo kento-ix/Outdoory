@@ -15,8 +15,6 @@ $action = $_GET['action'];
 
 $userModel = new User($pdo);
 
-var_dump($_ENV['SECRET_KEY']);
-
 
 // --- GET: pong test ---
 if ($action === 'pong') {
@@ -99,9 +97,11 @@ if ($method_type === 'POST') {
                     'email' => $user['email']
                 ]
             ]);
+            exit;
         } catch (Exception $e) {
             http_response_code(500);
             echo json_encode(['error' => 'Token generation failed']);
+            exit;
         }
 
     // -------------------
