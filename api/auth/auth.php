@@ -89,7 +89,7 @@ if ($method_type === 'POST') {
         ];
         
         try {
-            $token = JWT::encode($payload, $_ENV['SECRET_KEY'] ?? '', 'HS256');
+            $token = jwt_encode($payload);
             echo json_encode([
                 'message' => 'Login successful',
                 'token' => $token,
@@ -123,22 +123,8 @@ if ($method_type === 'POST') {
 
 // --- DELETE ---
 if ($method_type === 'DELETE' && $action === 'delete_account') {
-    $authHeader = $_SERVER['HTTP_AUTHORIZATION']
-        ?? $_SERVER['REDIRECT_HTTP_AUTHORIZATION']
-        ?? getallheaders()['Authorization']
-        ?? '';
-
-    if (!preg_match('/Bearer\s(\S+)/', $authHeader, $matches)) {
-        http_response_code(401);
-        echo json_encode(['error' => 'Authorization header missing or invalid']);
-        exit;
-    }
-
-    $jwt = $matches[1];
-
     try {
-        $decoded = JWT::decode($jwt, new Key($_ENV['SECRET_KEY'], 'HS256'));
-        $userId = $decoded->sub;
+        $userId = getUserIdFromToken();
         $userModel->deleteById($userId);
         http_response_code(200);
         echo json_encode(['message' => 'Account deleted successfully']);
