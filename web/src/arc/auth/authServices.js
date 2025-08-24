@@ -24,15 +24,24 @@ export async function loginUser({ username, password }) {
     body: JSON.stringify({ username, password }),
   });
 
-  if (!res.ok) {
-    const text = await res.text();
-    console.error("Server error:", text);
-    return;
-  } 
+  const text = await res.text();  // 常にテキストで受け取る
+  let data;
 
-  const data = await res.json();
-  return { ok: res.ok, data };
+  try {
+    data = JSON.parse(text);  // JSON 変換を試みる
+  } catch (e) {
+    console.error("Response is not JSON:", text);
+    return { ok: false, error: "Invalid JSON", raw: text };
+  }
+
+  if (!res.ok) {
+    console.error("Server error:", data);
+    return { ok: false, error: data };
+  }
+
+  return { ok: true, data };
 }
+
 
 // logout
 export async function logoutUser() {

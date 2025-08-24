@@ -15,6 +15,9 @@ $action = $_GET['action'];
 
 $userModel = new User($pdo);
 
+var_dump($_ENV['SECRET_KEY']);
+
+
 // --- GET: pong test ---
 if ($action === 'pong') {
     echo json_encode([
