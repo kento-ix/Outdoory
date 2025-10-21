@@ -23,7 +23,7 @@ Outdoory is a web application designed for people who enjoy outdoor activities. 
 **Frontend:**
 - React.js
 - CSS3
-- Recoil (State Management)
+- Jotai (State Management)
 
 **Backend:**
 - PHP
@@ -184,7 +184,7 @@ Outdooryは、アウトドア活動を楽しむ人々のためのWebアプリケ
 **フロントエンド:**
 - React.js
 - CSS3
-- Recoil（状態管理）
+- Jotai（状態管理）
 
 **バックエンド:**
 - PHP
